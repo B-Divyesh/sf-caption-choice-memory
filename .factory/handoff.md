@@ -1,3 +1,52 @@
+# Caption Choice Memory — review 1 handoff
+
+Date: 2026-08-28 UTC
+
+Work order: `caption-choice-memory-review-1`
+
+## Outcome
+
+Adversarial first-read review 1 is complete. Verdict: **FAIL**, with no blocking
+finding and 37 high/medium/minor findings. The complete evidence, exact quotes,
+word counts, claim results, and concrete fixes are in
+`.factory/review-1.md`.
+
+No product code was changed. The review found a clear mobile/desktop first
+screen, a working isolated one-click demo, ten passing declared claim commands,
+same-origin demo traffic, a distinct visual identity, working navigation, and
+confirmed repairs for the former missing ZIP, stale service worker, and small
+touch targets. Remaining work is public-copy cleanup, registration/tests for
+eight unlisted claims, a complete standard shell and metadata on the real 404,
+clear disclosure/testing of automatic application and supported players, and a
+local import/export path.
+
+## Verification performed
+
+```sh
+npm ci
+# Every exact command in .factory/claims.json, from a fresh local clone
+npm run build
+npm run test:live
+npm run test:browser:live
+# /opt/fleet/lib/verify-url.sh against the live root
+```
+
+All ten exact claim commands passed. The production build passed, live ZIP and
+service-worker hashes matched the candidate, and the live browser suite passed
+13/13. Custom fresh-context checks covered 390 × 844 and 1440 × 900 cold reads,
+demo isolation/reset, request origins, route metadata, link crawling,
+history/focus, real 404 status, and Axe scans.
+The factory URL verifier also passed with no console error, missing image alt,
+or unlabelled button.
+
+## Files changed
+
+- `.factory/review-1.md` — adversarial review and verdict.
+- `.factory/handoff.md` — this review handoff; earlier verification and repair
+  history remains below.
+
+---
+
 # Caption Choice Memory — verification handoff
 
 ## Independent verification 4
