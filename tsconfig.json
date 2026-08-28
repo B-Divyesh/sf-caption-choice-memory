@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["wxt/client", "node"]
+  },
+  "include": ["entrypoints", "shared", "site/src", "tests", "wxt.config.ts", "vite.site.config.ts"]
+}

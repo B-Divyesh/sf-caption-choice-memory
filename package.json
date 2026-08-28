@@ -1,0 +1,26 @@
+{
+  "name": "caption-choice-memory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Keep each site's caption language and default one action away.",
+  "scripts": {
+    "dev": "wxt",
+    "dev:site": "vite --config vite.site.config.ts",
+    "build:extension": "wxt build && wxt zip",
+    "build:site": "vite build --config vite.site.config.ts",
+    "build": "npm run build:extension && npm run build:site && node scripts/package.mjs",
+    "preview": "vite preview --config vite.site.config.ts",
+    "test": "npm run build && playwright test",
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.58.2",
+    "jsdom": "26.1.0",
+    "typescript": "5.9.2",
+    "vite": "7.1.3",
+    "vitest": "3.2.4",
+    "wxt": "0.21.4"
+  }
+}

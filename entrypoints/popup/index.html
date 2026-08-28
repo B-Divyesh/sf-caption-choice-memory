@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F5F0E6" />
+    <title>Caption Choice Memory</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to caption choices</a>
+    <main id="main">
+      <header class="popup-header">
+        <span class="mark" aria-hidden="true">CC</span>
+        <div>
+          <p class="eyebrow">Caption choice</p>
+          <h1 id="site-heading">Loading site…</h1>
+        </div>
+      </header>
+
+      <p id="page-notice" class="notice" hidden></p>
+
+      <form id="preference-form">
+        <label class="site-switch">
+          <span>
+            <strong>Use on this site</strong>
+            <small>Saved only for this website.</small>
+          </span>
+          <input id="site-enabled" type="checkbox" role="switch" checked />
+        </label>
+
+        <fieldset id="preference-fields">
+          <legend>When a video starts</legend>
+          <div class="policy-options">
+            <label><input type="radio" name="default-state" value="on" checked /> Turn captions on</label>
+            <label><input type="radio" name="default-state" value="off" /> Keep captions off</label>
+          </div>
+        </fieldset>
+
+        <section id="language-section" aria-labelledby="language-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="language-heading">Preferred languages</h2>
+              <p>First available wins.</p>
+            </div>
+            <button id="add-language" class="small-button" type="button">Add</button>
+          </div>
+          <ol id="language-list"></ol>
+        </section>
+
+        <button id="apply-button" class="primary-button" type="submit">Apply caption choice</button>
+      </form>
+
+      <div id="result" class="result" role="status" aria-live="polite" hidden>
+        <strong id="result-title"></strong>
+        <span id="result-detail"></span>
+      </div>
+
+      <footer>
+        <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>
+        <span>applies this choice</span>
+      </footer>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

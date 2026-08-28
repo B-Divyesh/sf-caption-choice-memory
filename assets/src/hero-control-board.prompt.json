@@ -1,0 +1,7 @@
+{
+  "tool": "/opt/fleet/lib/gen-image.sh",
+  "deployment": "factory-image",
+  "date": "2026-08-28",
+  "use_case": "stylized-concept",
+  "prompt": "Use case: stylized-concept. Asset type: wide landing page hero illustration. Scene: editorial tabletop still life of a tactile caption preference control board, made from recycled warm cream paper and cobalt molded plastic. Subject: one large square physical key, stacked blank language index tabs, subtitle safe-area corner brackets, and a yellow memory tab. Style: neo-brutalist product illustration with subtle screenprint halftone grain, crisp simple geometry, slightly imperfect ink registration. Composition: 3:2 wide canvas, orthographic three-quarter view, object centered with breathing room and a strong black offset shadow. Lighting: hard top-left studio light, crisp shadow, 50 mm product lens. Palette: warm paper, registration black, broadcast cobalt, signal yellow, one restrained green indicator. Constraints: no people, no logos, no brands, no readable text, no letters, no screens, no gradients, no glassmorphism, no watermark, no fake app UI."
+}
