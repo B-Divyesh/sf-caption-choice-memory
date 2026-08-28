@@ -23,7 +23,7 @@ Highlights:
 - The complete static 404 has route metadata, icons, skip link, standard
   header/footer, and the plain `Page not found` heading.
 - `.factory/claims.json` now declares 17 observable claims, each with exactly
-  one tagged test. The catalog description is verb-first and 72 characters.
+  one tagged test. The catalog description is verb-first and 68 characters.
 
 ## Verification
 
