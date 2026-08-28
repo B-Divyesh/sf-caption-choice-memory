@@ -1,24 +1,26 @@
 # Caption Choice Memory
 
-Keep each site's caption language and default one action away.
+Keep each site's caption language and on/off choice one action away.
 
-Caption Choice Memory is a free Chrome MV3 extension for caption-dependent
-viewers. It remembers whether captions should start on or off. It also keeps an
-ordered list of up to four preferred languages for each site.
+Caption Choice Memory is a free Chrome extension for people who rely on
+captions. It keeps an ordered list of up to four preferred languages for each
+site.
 
-[Try the isolated demo](https://caption-choice-memory.sociobot.in/demo) with
-sample data. The demo writes only to the
-`demo:caption-choice-memory:preference` browser key.
+[Try the demo with sample data](https://caption-choice-memory.sociobot.in/?demo=1).
+Demo changes are stored separately from your caption choices.
 
 ## What works
 
-- Native HTML5 video tracks use the first preferred language available.
+- Saved choices apply when a supported video appears.
+- On supported videos, the extension selects the first preferred language available.
+- It supports native HTML5 caption tracks and YouTube caption controls.
 - `Alt+Shift+C` applies the saved choice to the current video.
 - Unsupported players show a notice with the next step.
-- Preferences stay in Chrome extension storage and make no remote request.
+- Caption choices stay in this browser and are not sent elsewhere.
 - Caption choices can be applied without network access.
+- Settings export choices as JSON and import valid backups with a replacement preview.
 
-## Install the packaged extension
+## Install the Chrome extension
 
 1. Download `caption-choice-memory.zip` from the product site.
 2. Unzip it to a permanent folder.
@@ -26,12 +28,13 @@ sample data. The demo writes only to the
 4. Turn on **Developer mode**.
 5. Choose **Load unpacked**, then select the unzipped folder.
 
-Chrome does not install unsigned zip files directly. The same package is ready
-for the factory's later store submission.
+## Developer guide
 
-## Develop
+### Requirements
 
-Requirements: Node.js 20 or newer and npm.
+Node.js 20 or newer and npm.
+
+### Develop
 
 ```sh
 npm install
@@ -41,45 +44,40 @@ npm run dev:site  # static site at http://127.0.0.1:4173
 
 Load `.output/chrome-mv3` as an unpacked extension while `npm run dev` runs.
 
-## Test and build
+### Test and build
 
 ```sh
 npm test
 npm run build
-npm run test:live # after deployment; byte-compares the live ZIP and service worker
+npm run test:live # after deployment; compares the live ZIP and service worker
 npm run test:browser:live # after deployment; reruns browser QA against production
 ```
 
-`npm test` runs unit tests, creates both builds, starts the static preview, and
-runs the Playwright claim and accessibility checks.
-
-`npm run build` is the reproducible factory build command. It creates:
+Run `npm run build` to create the release files:
 
 - `.output/chrome-mv3/` — unpacked extension
 - `.output/caption-choice-memory-1.0.0-chrome.zip` — WXT archive
 - `dist/site/` — deployable static site
 - `dist/site/downloads/caption-choice-memory.zip` — public extension download
 
-Deploy `dist/site/` as the static root. Its `index.html` sits at that root.
-Azure Static Web Apps can use the included `staticwebapp.config.json`.
-`npm run build:site` also creates this complete deployable tree; it is safe as
-the work order's final build command and cannot leave the ZIP or raw worker out.
+Deploy `dist/site/` as the static root. The Azure Static Web Apps configuration
+is `site/public/staticwebapp.config.json`.
 
-## Project map
+### Project map
 
-- `entrypoints/` — WXT background, content, and popup entry points
+- `entrypoints/` — WXT background, content, popup, and settings entry points
 - `shared/` — caption preference types and player adapters
-- `site/` — static product site and isolated demo
+- `site/` — static product site and demo
 - `tests/` — Vitest unit tests and Playwright claim tests
 - `.factory/` — brief, design thesis, claims, demo notes, and handoff
 
 ## Privacy and limits
 
-The extension stores site names and caption choices in local extension storage.
-It has no account, analytics, ads, or remote database. Read the full
+Chrome stores site names and caption choices on this device. It has no account,
+analytics, ads, or remote database. Read the full
 [privacy page](https://caption-choice-memory.sociobot.in/privacy) and
 [terms](https://caption-choice-memory.sociobot.in/terms).
 
 ## License
 
-MIT. See [LICENSE](./LICENSE).
+Available under the MIT License. See [LICENSE](./LICENSE).

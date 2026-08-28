@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F5F0E6" />
+    <title>Settings — Caption Choice Memory</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to settings</a>
+    <main id="main">
+      <header>
+        <span class="mark" aria-hidden="true">CC</span>
+        <div><p class="eyebrow">Caption Choice Memory</p><h1 tabindex="-1">Back up caption choices</h1></div>
+      </header>
+      <p class="lede">Export your site choices as a file, or import a file from this extension. Nothing is uploaded.</p>
+      <section aria-labelledby="export-heading">
+        <h2 id="export-heading">Export choices</h2>
+        <p>Download all saved caption choices as a JSON backup.</p>
+        <button id="export-choices" class="button primary" type="button">Export choices (JSON)</button>
+      </section>
+      <section aria-labelledby="import-heading">
+        <h2 id="import-heading">Import choices</h2>
+        <p>Choose a JSON backup exported by Caption Choice Memory.</p>
+        <label class="file-field" for="import-file">Choose backup file<input id="import-file" type="file" accept="application/json,.json" /></label>
+        <div id="import-preview" class="notice" role="status" aria-live="polite" hidden></div>
+        <button id="confirm-import" class="button" type="button" disabled>Import choices</button>
+      </section>
+      <p id="result" class="result" role="status" aria-live="polite" hidden></p>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

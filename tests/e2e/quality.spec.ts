@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-for (const route of ["/", "/demo", "/privacy", "/terms"]) {
+for (const route of ["/", "/demo", "/privacy", "/terms", "/404.html"]) {
   test(`${route} has one clear page heading and no serious accessibility issues`, async ({ page }) => {
     const consoleErrors: string[] = [];
     page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
@@ -31,7 +31,7 @@ test("every directly operated demo control has a 44px by 44px mobile touch targe
   await page.goto("/demo");
   for (const locator of [
     page.getByRole("button", { name: "Reset demo" }),
-    page.getByRole("link", { name: "Start for real" }),
+    page.getByRole("link", { name: "Install the extension" }),
     page.getByRole("link", { name: "Demo", exact: true }),
     page.getByRole("switch", { name: "Use on this site Visible per-site off switch" }),
     page.getByRole("radio", { name: "Turn captions on" }),
@@ -61,6 +61,18 @@ test("static deployment rules preserve known routes, real 404s, immutable assets
   expect(config).toContain('"Cache-Control": "no-cache"');
 });
 
+test("the static 404 includes the product shell and route metadata", async () => {
+  const page = await import("node:fs/promises").then(({ readFile }) => readFile("site/public/404.html", "utf8"));
+  expect(page).toContain('<meta name="description"');
+  expect(page).toContain('rel="canonical"');
+  expect(page).toContain('property="og:title"');
+  expect(page).toContain('name="twitter:card"');
+  expect(page).toContain('apple-touch-icon');
+  expect(page).toContain('<header class="site-header">');
+  expect(page).toContain('<footer class="site-footer">');
+  expect(page).toContain('<h1>Page not found</h1>');
+});
+
 test("internal navigation updates history, title, and focus", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Demo", exact: true }).click();
@@ -70,4 +82,11 @@ test("internal navigation updates history, title, and focus", async ({ page }) =
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.locator("h1")).toHaveText("Keep caption choices one action away");
+});
+
+test("the one-click query demo route loads the isolated demo", async ({ page }) => {
+  await page.goto("/?demo=1");
+  await expect(page).toHaveTitle("Demo — Caption Choice Memory");
+  await expect(page.getByText("Demo — sample data, nothing is saved")).toBeVisible();
+  await expect(page.locator("h1")).toHaveText("Apply your saved captions");
 });

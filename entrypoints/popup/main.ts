@@ -17,6 +17,7 @@ const languageSection = document.querySelector<HTMLElement>("#language-section")
 const fields = document.querySelector<HTMLFieldSetElement>("#preference-fields")!;
 const result = document.querySelector<HTMLElement>("#result")!;
 const notice = document.querySelector<HTMLElement>("#page-notice")!;
+const openSettings = document.querySelector<HTMLButtonElement>("#open-settings")!;
 let activeTabId: number | undefined;
 let activeSite = "";
 
@@ -166,3 +167,5 @@ async function start(): Promise<void> {
 }
 
 void start();
+
+openSettings.addEventListener("click", () => void browser.runtime.openOptionsPage());

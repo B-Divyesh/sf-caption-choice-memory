@@ -54,7 +54,7 @@ function footer(): string {
         <a href="/terms" data-link>Terms</a>
         <a href="https://hello-factory.sociobot.in" rel="external">Built by Param Factory <span class="visually-hidden">(external site)</span></a>
       </nav>
-      <p class="build-id">${BUILD_ID} · Generated art disclosed in the design record.</p>
+      <p class="build-id">${BUILD_ID}</p>
     </footer>`;
 }
 
@@ -64,26 +64,25 @@ function landing(): string {
     <main id="main">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="kicker"><span aria-hidden="true">■</span> Your captions / remembered</p>
           <h1 id="hero-title" tabindex="-1">Keep caption choices one action away</h1>
-          <p class="lede">For viewers who repeat the same language and caption setting on every video site.</p>
+          <p class="lede">For viewers who choose the same caption language and on/off setting across video sites.</p>
           <div class="action-row">
-            <a class="button primary" href="/demo" data-link>Try it with sample data</a>
+            <a class="button primary" href="/?demo=1" data-link>Try it with sample data</a>
             <p>Then apply English captions to a sample player.</p>
           </div>
           <ul class="plain-facts" aria-label="Product facts">
-            <li>Preferences stay in this browser.</li>
+            <li>Caption choices stay in this browser.</li>
             <li>Caption choices work offline.</li>
             <li>Free. No account.</li>
           </ul>
         </div>
         <figure class="hero-art">
-          <span class="figure-label">MEM / 01</span>
+          <span class="figure-label">Saved caption choice</span>
           <picture>
             <source media="(max-width: 720px)" srcset="/assets/hero-control-board-768.webp" />
             <img src="/assets/hero-control-board.webp" width="1280" height="853" alt="A paper caption control board with one blue key and stacked choice cards." decoding="async" fetchpriority="high" />
           </picture>
-          <figcaption>One control. Your order. Each site.</figcaption>
+          <figcaption>The extension remembers an ordered language list for each site.</figcaption>
         </figure>
       </section>
 
@@ -91,8 +90,8 @@ function landing(): string {
         <div class="section-number" aria-hidden="true">01</div>
         <div class="preview-copy">
           <p class="kicker">The extension</p>
-          <h2 id="preview-heading">Set the rule once</h2>
-          <p>Choose a caption default and save up to four languages for each site.</p>
+          <h2 id="preview-heading">Save a caption choice for each site</h2>
+          <p>Choose whether captions start on or off, then save up to four languages for each site.</p>
           <a class="text-link" href="/demo" data-link>Open the working demo <span aria-hidden="true">→</span></a>
         </div>
         <div class="extension-card" aria-label="Preview of the extension controls">
@@ -106,32 +105,32 @@ function landing(): string {
       </section>
 
       <section id="how-it-works" class="steps" aria-labelledby="steps-heading">
-        <p class="kicker">Three moves</p>
         <h2 id="steps-heading">How it works</h2>
         <ol>
           <li><span class="step-number">1</span><div><h3>Open the extension</h3><p>It saves a caption choice for the current site.</p></div></li>
-          <li><span class="step-number">2</span><div><h3>Save your order</h3><p>Pick captions on or off, then rank your languages.</p></div></li>
-          <li><span class="step-number">3</span><div><h3>Apply the choice</h3><p>Use the button or keyboard shortcut on a supported player.</p></div></li>
+          <li><span class="step-number">2</span><div><h3>Rank preferred languages</h3><p>Pick captions on or off, then rank your languages.</p></div></li>
+          <li><span class="step-number">3</span><div><h3>Apply the choice</h3><p>Saved choices apply when a supported video appears. Apply again with the button or shortcut.</p></div></li>
         </ol>
       </section>
 
       <section class="limits" aria-labelledby="limits-heading">
         <div>
           <p class="kicker">Clear limits</p>
-          <h2 id="limits-heading">It changes exposed player controls</h2>
+          <h2 id="limits-heading">It works only with available caption controls</h2>
         </div>
         <ul>
+          <li>Supported players: native HTML5 caption tracks and YouTube caption controls.</li>
           <li>Unsupported players get a clear notice.</li>
         </ul>
-        <p>The extension uses exposed caption tracks and player buttons. Your browser stores each site's choice locally.</p>
+        <p>It uses captions that the player makes available. Caption choices stay in this browser.</p>
       </section>
 
       <section id="download" class="download" aria-labelledby="download-heading">
-        <span class="memory-tab">FREE / LOCAL</span>
+        <span class="memory-tab">Free · choices stay in Chrome</span>
         <div>
           <p class="kicker">Version 1.0</p>
-          <h2 id="download-heading">Add your caption memory</h2>
-          <p>Download the Chrome package, unzip it, then load the folder as an unpacked extension.</p>
+          <h2 id="download-heading">Install the Chrome extension</h2>
+          <p>Download the ZIP, unzip it, then choose Load unpacked in Chrome's extension settings.</p>
         </div>
         <a class="button primary inverse" href="/downloads/caption-choice-memory.zip" download>Download extension (.zip)</a>
       </section>
@@ -152,14 +151,14 @@ function demo(): string {
   return `
     <div class="demo-banner" role="status">
       <strong>Demo — sample data, nothing is saved</strong>
-      <div><button type="button" id="reset-demo" class="text-button">Reset demo</button><a href="/#download" data-link id="start-real">Start for real</a></div>
+      <div><button type="button" id="reset-demo" class="text-button">Reset demo</button><a href="/#download" data-link id="start-real">Install the extension</a></div>
     </div>
     ${header()}
     <main id="main" class="demo-main">
       <section class="demo-intro">
         <p class="kicker">WatchRoom.example / sample</p>
         <h1 tabindex="-1">Apply your saved captions</h1>
-        <p class="lede">Change the sample rule, then apply it to the player in one action.</p>
+      <p class="lede">Change the sample choice, then apply it to the player in one action.</p>
       </section>
 
       <section class="demo-workbench" aria-label="Caption choice demo">
@@ -189,7 +188,7 @@ function demo(): string {
           <label class="player-select">Sample player state<select id="demo-player">${playerOptions(state.player)}</select></label>
           <button class="button primary full" type="submit">Apply caption choice</button>
           <p class="shortcut-note"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> applies the same choice.</p>
-          <div id="demo-result" class="demo-result" role="status" aria-live="polite"><strong>English captions are on</strong><span>Sample preference loaded.</span></div>
+          <div id="demo-result" class="demo-result" role="status" aria-live="polite"><strong>English captions are on</strong><span>Sample caption choice loaded.</span></div>
         </form>
       </section>
     </main>
@@ -213,10 +212,10 @@ function privacy(): string {
       <p class="kicker">Privacy / plain terms</p>
       <h1 tabindex="-1">Your caption choices stay in your browser</h1>
       <p class="lede">Caption Choice Memory has no account, analytics, ads, or remote database.</p>
-      <section><h2>What the extension stores</h2><p>It stores each site's name, on or off setting, and ordered language list in browser extension storage.</p></section>
-      <section><h2>What the extension reads</h2><p>It reads the current site's name and exposed video caption controls.</p></section>
+      <section><h2>What the extension stores</h2><p>Chrome stores each site's name, on or off setting, and ordered language list on this device.</p></section>
+      <section><h2>What the extension reads</h2><p>It reads the current site's name and available video caption controls.</p></section>
       <section><h2>What leaves your device</h2><p>No caption preference leaves your device.</p></section>
-      <section><h2>Delete demo data</h2><p>Use Reset demo to remove the sample data key.</p></section>
+      <section><h2>Delete demo data</h2><p>Reset demo removes its sample data and restores the English-first sample.</p></section>
       <p class="legal-date">Effective 28 August 2026.</p>
     </main>
     ${footer()}`;
@@ -228,8 +227,8 @@ function terms(): string {
     <main id="main" class="legal-page">
       <p class="kicker">Terms / version 1.0</p>
       <h1 tabindex="-1">Use the extension with supported players</h1>
-      <p class="lede">Caption Choice Memory is free software for personal and commercial use under the MIT License.</p>
-      <section><h2>What it does</h2><p>The extension asks exposed player controls to apply your saved caption choice. A player may change and stop responding.</p></section>
+      <p class="lede">Caption Choice Memory is available under the MIT License.</p>
+      <section><h2>What it does</h2><p>The extension asks available caption controls to apply your saved caption choice. A player may change and stop responding.</p></section>
       <section><h2>Your responsibility</h2><p>Use the extension lawfully. Do not use it to bypass access controls or site rules.</p></section>
       <section><h2>No warranty</h2><p>The software is provided as is, without warranty. The full MIT License ships with the source.</p></section>
       <section><h2>Changes</h2><p>New versions may update these terms. The effective date will change when the terms change.</p></section>
@@ -242,8 +241,8 @@ function notFound(): string {
   return `
     ${header()}
     <main id="main" class="missing-page">
-      <p class="kicker">404 / No track</p>
-      <h1 tabindex="-1">This page has no caption track</h1>
+      <p class="kicker">404</p>
+      <h1 tabindex="-1">Page not found</h1>
       <p>The address may be wrong. Return to the product page.</p>
       <a class="button primary" href="/" data-link>Return home</a>
     </main>
@@ -251,6 +250,7 @@ function notFound(): string {
 }
 
 function currentRoute(): Route {
+  if (location.search === "?demo=1") return "/demo";
   const path = location.pathname.replace(/\/$/, "") || "/";
   return (["/", "/demo", "/privacy", "/terms"] as Route[]).includes(path as Route) ? path as Route : "/404";
 }
@@ -259,6 +259,18 @@ function updateMetadata(route: Route): void {
   document.title = TITLES[route];
   const canonical = document.querySelector<HTMLLinkElement>("link[rel='canonical']");
   if (canonical) canonical.href = `https://caption-choice-memory.sociobot.in${route === "/404" ? "/404" : route}`;
+  const descriptions: Record<Route, string> = {
+    "/": "Remember each site's caption language and on/off choice in Chrome.",
+    "/demo": "Try Caption Choice Memory with isolated sample data.",
+    "/privacy": "Read how Caption Choice Memory stores caption choices locally.",
+    "/terms": "Read the terms for Caption Choice Memory.",
+    "/404": "The requested Caption Choice Memory page was not found."
+  };
+  document.querySelector('meta[name="description"]')?.setAttribute("content", descriptions[route]);
+  document.querySelector('meta[property="og:description"]')?.setAttribute("content", descriptions[route]);
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", descriptions[route]);
+  document.querySelector('meta[property="og:title"]')?.setAttribute("content", TITLES[route]);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", TITLES[route]);
 }
 
 function render(options: { focus?: boolean } = {}): void {
@@ -282,7 +294,7 @@ function bindLinks(): void {
       const url = new URL(link.href);
       if (url.origin !== location.origin) return;
       event.preventDefault();
-      history.pushState({}, "", `${url.pathname}${url.hash}`);
+      history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
       render({ focus: !url.hash });
     });
   });
@@ -303,14 +315,14 @@ function bindDemo(): void {
   playerSelect.addEventListener("change", updatePlayerPreview);
   updatePlayerPreview();
 
-  const apply = () => {
+  const apply = (persist = true, automatic = false) => {
     const enabled = document.querySelector<HTMLInputElement>("#demo-enabled")!.checked;
     const policy = document.querySelector<HTMLInputElement>("input[name='demo-policy']:checked")!.value as "on" | "off";
     const primaryLanguage = document.querySelector<HTMLSelectElement>("#demo-language-one")!.value as DemoState["primaryLanguage"];
     const secondLanguage = document.querySelector<HTMLSelectElement>("#demo-language-two")!.value as DemoState["secondLanguage"];
     const player = playerSelect.value as DemoState["player"];
     const state: DemoState = { enabled, policy, primaryLanguage, secondLanguage, player };
-    localStorage.setItem(DEMO_KEY, JSON.stringify(state));
+    if (persist) localStorage.setItem(DEMO_KEY, JSON.stringify(state));
 
     const caption = document.querySelector<HTMLElement>("#sample-caption")!;
     const result = document.querySelector<HTMLElement>("#demo-result")!;
@@ -334,7 +346,7 @@ function bindDemo(): void {
     } else if (policy === "off") {
       caption.hidden = true;
       title.textContent = "Captions are off";
-      detail.textContent = "Applied this site's saved caption choice.";
+      detail.textContent = automatic ? "Saved choice applied when this sample video appeared." : "Applied this site's saved caption choice.";
     } else {
       const captions = { en: "The tide turns before the rain.", es: "La marea cambia antes de la lluvia.", fr: "La marée tourne avant la pluie." };
       const names = { en: "English", es: "Spanish", fr: "French" };
@@ -356,6 +368,7 @@ function bindDemo(): void {
   }
   reset.addEventListener("click", () => { localStorage.removeItem(DEMO_KEY); render({ focus: true }); });
   startReal.addEventListener("click", () => localStorage.removeItem(DEMO_KEY));
+  if (localStorage.getItem(DEMO_KEY)) apply(false, true);
 }
 
 window.addEventListener("popstate", () => render({ focus: true }));

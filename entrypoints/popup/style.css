@@ -162,7 +162,8 @@ button:disabled { opacity: .55; cursor: not-allowed; }
 .result span { color: #625f55; font-size: 14px; }
 
 .is-disabled { opacity: .48; }
-footer { display: flex; align-items: center; gap: 5px; margin-top: 18px; color: #625f55; font-size: 12px; }
+footer { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 18px; color: #625f55; font-size: 12px; }
+.settings-link { min-height: 44px; margin-left: auto; border: 0; background: transparent; color: #17170e; font: inherit; font-weight: 800; text-decoration: underline; cursor: pointer; }
 kbd { padding: 2px 4px; border: 1px solid #17170e; background: #fff; color: #17170e; font-family: ui-monospace, monospace; }
 
 :focus-visible { outline: 3px solid #f2d12b; outline-offset: 2px; box-shadow: 0 0 0 5px #17170e; }

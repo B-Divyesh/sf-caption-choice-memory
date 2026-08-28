@@ -1,57 +1,48 @@
 # Landing page copy audit
 
-Audited 2026-08-28. Counts treat hyphenated terms as one word. UI labels and
-headings are listed separately because they are fragments, not sentences.
+Audited 2026-08-28 after polish round 1. Counts treat hyphenated terms and
+shortcuts as one word. No sentence exceeds 22 words or uses a banned word.
 
 ## Sentences
 
-| Sentence | Words | Result |
+| Sentence | Words | Evidence |
 | --- | ---: | --- |
-| For viewers who repeat the same language and caption setting on every video site. | 13 | Pass |
-| Then apply English captions to a sample player. | 8 | Pass |
-| Preferences stay in this browser. | 5 | Pass |
-| Caption choices work offline. | 4 | Pass |
-| Free. | 1 | Pass |
-| No account. | 2 | Pass |
-| One control. | 2 | Pass |
-| Your order. | 2 | Pass |
-| Each site. | 2 | Pass |
-| Choose a caption default and save up to four languages for each site. | 13 | Pass |
-| It saves a caption choice for the current site. | 9 | Pass |
-| Pick captions on or off, then rank your languages. | 9 | Pass |
-| Use the button or keyboard shortcut on a supported player. | 10 | Pass |
-| Unsupported players get a clear notice. | 6 | Pass |
-| The extension uses exposed caption tracks and player buttons. | 9 | Pass |
-| Your browser stores each site's choice locally. | 7 | Pass |
-| Download the Chrome package, unzip it, then load the folder as an unpacked extension. | 14 | Pass |
-| Keep each site's caption choice one action away. | 8 | Pass |
-| Generated art disclosed in the design record. | 7 | Pass |
-
-No sentence exceeds 22 words. No sentence contains a banned word.
+| For viewers who choose the same caption language and on/off setting across video sites. | 14 | Plain audience statement |
+| Then apply English captions to a sample player. | 8 | Demo action |
+| Caption choices stay in this browser. | 6 | `site-memory` |
+| Caption choices work offline. | 4 | `offline-action` |
+| Free. No account. | 3 | `free-no-account` |
+| The extension remembers an ordered language list for each site. | 10 | `site-memory` |
+| Choose whether captions start on or off, then save up to four languages for each site. | 16 | `language-limit` |
+| Saved choices apply when a supported video appears. | 8 | `automatic-apply` |
+| Apply again with the button or shortcut. | 8 | `one-action`, `keyboard-shortcut` |
+| It uses captions that the player makes available. | 9 | `native-caption-tracks`, `youtube-caption-controls` |
+| Caption choices stay in this browser. | 6 | `site-memory` |
+| Download the ZIP, unzip it, then choose Load unpacked in Chrome's extension settings. | 13 | Installation instruction |
+| Keep each site's caption choice one action away. | 8 | `one-action`, `site-memory` |
 
 ## Headings and controls
 
-| Copy | Words | Result |
-| --- | ---: | --- |
-| Keep caption choices one action away | 6 | Pass: job-first headline |
-| Try it with sample data | 5 | Pass: named action |
-| Set the rule once | 4 | Pass |
-| Open the working demo | 4 | Pass |
-| How it works | 3 | Pass |
-| Open the extension | 3 | Pass |
-| Save your order | 3 | Pass |
-| Apply the choice | 3 | Pass |
-| It changes exposed player controls | 5 | Pass |
-| Add your caption memory | 4 | Pass |
-| Download extension (.zip) | 3 | Pass: named result |
+| Copy | Result |
+| --- | --- |
+| Keep caption choices one action away | Job-first `<h1>` |
+| Try it with sample data | One-click isolated demo action |
+| Save a caption choice for each site | Names the stored object |
+| How it works | Section heading |
+| Rank preferred languages | Names the ordered object |
+| It works only with available caption controls | Plain limitation |
+| Install the Chrome extension | Plain installation heading |
+| Free · choices stay in Chrome | Explains the state |
+| Install the extension | Names the demo exit result |
 
 ## First-screen read-aloud check
 
-“Keep caption choices one action away. For viewers who repeat the same language
-and caption setting on every video site. Try it with sample data. Then apply
-English captions to a sample player.”
+“Keep caption choices one action away. For viewers who choose the same caption
+language and on/off setting across video sites. Try it with sample data. Then
+apply English captions to a sample player.”
 
-This states the job, audience, first action, and result in one short read.
+This says the job, audience, first action, and immediate result in one short
+read.
 
 ## Terminology table
 
@@ -59,7 +50,7 @@ This states the job, audience, first action, and result in one short read.
 | --- | --- |
 | Stored site rule | caption choice |
 | Ordered locale selection | preferred languages |
-| Initial on/off behavior | caption default |
+| Initial on/off behavior | on/off setting |
 | Website-specific enable control | site switch |
 | Browser add-on | extension |
 | Test environment | demo |

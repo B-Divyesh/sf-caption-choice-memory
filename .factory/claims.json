@@ -1,72 +1,19 @@
 [
-  {
-    "id": "one-action",
-    "claim": "Applies a saved caption choice in one action on a supported player.",
-    "where": "landing first screen, demo, README",
-    "test": "npm test -- --grep @claim:one-action",
-    "sandbox": "fresh browser context at /demo; click Apply once; assert the sample caption state"
-  },
-  {
-    "id": "site-memory",
-    "claim": "Keeps each site's ordered caption choice in browser storage.",
-    "where": "landing facts, privacy, README",
-    "test": "npm test -- --grep @claim:site-memory",
-    "sandbox": "fresh Chromium extension profile; save a site preference through the real popup; assert the site-prefixed extension storage record"
-  },
-  {
-    "id": "offline-action",
-    "claim": "Caption choices can be applied without network access.",
-    "where": "landing facts, README",
-    "test": "npm test -- --grep @claim:offline-action",
-    "sandbox": "fresh browser context at /demo; go offline; change the sample language; apply and assert the caption"
-  },
-  {
-    "id": "private-requests",
-    "claim": "Sends no caption preference to another origin and has no account, analytics, ads, or remote database.",
-    "where": "privacy, README",
-    "test": "npm test -- --grep @claim:private-requests",
-    "sandbox": "fresh Chromium extension profile; record all extension exercise requests while saving and applying a preference"
-  },
-  {
-    "id": "unsupported-notice",
-    "claim": "Shows a clear notice when a player does not expose caption controls.",
-    "where": "landing limits, demo, README",
-    "test": "npm test -- --grep @claim:unsupported-notice",
-    "sandbox": "fresh browser context at /demo; choose unsupported sample player; apply"
-  },
-  {
-    "id": "keyboard-shortcut",
-    "claim": "Applies the saved choice with Alt+Shift+C.",
-    "where": "landing how it works, demo, README",
-    "test": "npm test -- --grep @claim:keyboard-shortcut",
-    "sandbox": "fresh browser context at /demo; select French; press Alt+Shift+C; assert French caption"
-  },
-  {
-    "id": "player-controls",
-    "claim": "Uses exposed text tracks and player controls.",
-    "where": "landing limits, privacy, README",
-    "test": "npm run test:unit -- --testNamePattern @claim:player-controls",
-    "sandbox": "jsdom page with two exposed text tracks; assert first preferred track becomes showing"
-  },
-  {
-    "id": "download-package",
-    "claim": "Provides a packaged MV3 Chrome extension download.",
-    "where": "landing download, README",
-    "test": "npm test -- --grep @claim:download-package",
-    "sandbox": "built static site; request zip; assert ZIP signature and non-empty package"
-  },
-  {
-    "id": "language-limit",
-    "claim": "Keeps an ordered list of up to four preferred languages for each site.",
-    "where": "landing preview, README",
-    "test": "npm run test:unit -- --testNamePattern @claim:language-limit",
-    "sandbox": "unit preference input with five ordered language codes; assert the first four unique codes remain"
-  },
-  {
-    "id": "free-no-account",
-    "claim": "Free. No account.",
-    "where": "landing facts, terms",
-    "test": "npm run test:unit -- --testNamePattern @claim:free-no-account",
-    "sandbox": "product brief and browser package metadata; assert the product is free and has no billing or authentication dependency"
-  }
+  { "id": "one-action", "claim": "Applies a saved caption choice in one action on a supported player.", "where": "landing first screen, demo, README", "test": "npm test -- --grep @claim:one-action", "sandbox": "fresh browser context at ?demo=1; click Apply once; assert the sample caption state" },
+  { "id": "site-memory", "claim": "Keeps each site's ordered caption choice in browser storage.", "where": "landing facts, privacy, README", "test": "npm test -- --grep @claim:site-memory", "sandbox": "fresh Chromium extension profile; save through the real popup; assert the site-prefixed record" },
+  { "id": "offline-action", "claim": "Caption choices can be applied without network access.", "where": "landing facts, README", "test": "npm test -- --grep @claim:offline-action", "sandbox": "fresh browser context at ?demo=1; go offline; change the sample language; apply and assert the caption" },
+  { "id": "private-requests", "claim": "Sends no caption preference to another origin and has no account, analytics, ads, or remote database.", "where": "privacy, README", "test": "npm test -- --grep @claim:private-requests", "sandbox": "fresh Chromium extension profile; record requests while saving and applying" },
+  { "id": "demo-isolation", "claim": "Demo sample changes do not affect saved caption choices.", "where": "demo banner, README", "test": "npm test -- --grep @claim:demo-isolation", "sandbox": "seed a real key; change ?demo=1; assert only demo: storage changes and requests remain same-origin" },
+  { "id": "demo-reset", "claim": "Reset demo removes sample data and restores the English-first sample.", "where": "privacy, demo banner", "test": "npm test -- --grep @claim:demo-reset", "sandbox": "change demo language; reset; assert demo key absent and English selected" },
+  { "id": "automatic-apply", "claim": "Saved choices apply when a supported video appears.", "where": "landing how it works, demo", "test": "npm test -- --grep @claim:automatic-apply", "sandbox": "fresh extension profile with a saved choice; load native video fixture; assert the preferred track becomes showing" },
+  { "id": "unsupported-notice", "claim": "Shows a clear notice when a player does not expose caption controls.", "where": "landing limits, demo, README", "test": "npm test -- --grep @claim:unsupported-notice", "sandbox": "fresh browser context at ?demo=1; choose unsupported sample player; apply" },
+  { "id": "keyboard-shortcut", "claim": "Applies the saved choice with Alt+Shift+C.", "where": "landing how it works, demo, README", "test": "npm test -- --grep @claim:keyboard-shortcut", "sandbox": "fresh browser context at ?demo=1; select French; press Alt+Shift+C; assert French caption" },
+  { "id": "native-caption-tracks", "claim": "Supports native HTML5 caption tracks.", "where": "landing supported players, README", "test": "npm run test:unit -- --testNamePattern @claim:native-caption-tracks", "sandbox": "jsdom page with two exposed text tracks; assert first preferred track becomes showing" },
+  { "id": "youtube-caption-controls", "claim": "Supports YouTube caption controls.", "where": "landing supported players, README", "test": "npm run test:unit -- --testNamePattern @claim:youtube-caption-controls", "sandbox": "jsdom YouTube control fixture; assert caption toggle and preferred language control are used" },
+  { "id": "choice-export", "claim": "Exports saved caption choices as JSON.", "where": "extension settings, README", "test": "npm test -- --grep @claim:choice-export", "sandbox": "fresh extension profile with one saved choice; export and inspect the downloaded JSON" },
+  { "id": "choice-import", "claim": "Imports valid caption-choice backups and previews replacements.", "where": "extension settings, README", "test": "npm test -- --grep @claim:choice-import", "sandbox": "fresh extension profile; upload a valid overlapping JSON backup; assert preview and imported storage" },
+  { "id": "download-package", "claim": "Provides a packaged MV3 Chrome extension download.", "where": "landing download, README", "test": "npm test -- --grep @claim:download-package", "sandbox": "built static site; request ZIP; assert signature and non-empty package" },
+  { "id": "language-limit", "claim": "Keeps an ordered list of up to four preferred languages for each site.", "where": "landing preview, README", "test": "npm run test:unit -- --testNamePattern @claim:language-limit", "sandbox": "unit preference input with five codes; assert the first four unique codes remain" },
+  { "id": "free-no-account", "claim": "Free. No account.", "where": "landing facts", "test": "npm run test:unit -- --testNamePattern @claim:free-no-account", "sandbox": "brief and package metadata; assert no billing or authentication dependency" },
+  { "id": "mit-license", "claim": "Available under the MIT License.", "where": "terms, README", "test": "npm run test:unit -- --testNamePattern @claim:mit-license", "sandbox": "read shipped LICENSE and assert the MIT permission grant" }
 ]

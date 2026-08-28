@@ -62,7 +62,7 @@ async function chooseYouTubeLanguage(preference: SitePreference): Promise<boolea
     return [code, option?.[1] ?? ""].filter(Boolean);
   });
   const languageItem = Array.from(document.querySelectorAll<HTMLElement>(".ytp-menuitem")).find((item) =>
-    preferredNames.some((name) => (item.textContent ?? "").toLowerCase().includes(name.toLowerCase()))
+    item !== captionMenu && preferredNames.some((name) => (item.textContent ?? "").toLowerCase().includes(name.toLowerCase()))
   );
   if (!languageItem) {
     settings.click();

@@ -2,8 +2,8 @@
 
 ## Entry point
 
-- Production: `https://caption-choice-memory.sociobot.in/demo`
-- Local after `npm run build`: `http://127.0.0.1:4173/demo`
+- Production: `https://caption-choice-memory.sociobot.in/?demo=1`
+- Local after `npm run build`: `http://127.0.0.1:4173/?demo=1`
 
 The first screen already contains a saved English-first rule and a sample video
 frame. Press **Apply caption choice** to prove the one-action path.
@@ -23,11 +23,11 @@ keyboard path is `Alt+Shift+C`.
 
 Demo changes use only the localStorage key
 `demo:caption-choice-memory:preference`. The demo never reads or writes the
-extension's `chrome.storage.local` data.
+extension's `chrome.storage.local` data or any real browser key.
 
-Use **Reset demo** in the persistent banner to remove the demo key and reload
-the sample. **Start for real** also removes the demo key before opening the
-download section.
+Use **Reset demo** in the persistent banner to remove the demo key and restore
+the English-first sample. **Install the extension** also removes the demo key
+before opening the download section. `/demo` remains a direct demo route.
 
 The claim tests start with a fresh browser context. No account, network service,
 or live website is required.

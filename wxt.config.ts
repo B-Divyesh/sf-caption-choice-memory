@@ -6,12 +6,16 @@ export default defineConfig({
   manifest: {
     name: "Caption Choice Memory",
     short_name: "Caption Memory",
-    description: "Keep each site's caption language and default one action away.",
+    description: "Keep each site's caption language and on/off choice one action away.",
     version: "1.0.0",
     permissions: ["storage", "activeTab", "tabs"],
     host_permissions: ["http://*/*", "https://*/*"],
     action: {
       default_title: "Caption Choice Memory"
+    },
+    options_ui: {
+      page: "options.html",
+      open_in_tab: true
     },
     commands: {
       "apply-caption-choice": {
