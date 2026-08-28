@@ -60,6 +60,10 @@ the production build reported title/lang/one h1/main/alt/button labels and zero
 console errors. Built site assets are 5,205 bytes gzipped JS and 4,065 bytes
 gzipped CSS; the extension ZIP validates with `unzip -t`.
 
+Lighthouse 13 mobile against the deployed landing page: Performance 100,
+Accessibility 100, Best Practices 100, SEO 100; LCP 1,040 ms, CLS 0, TBT 20 ms,
+and 36,376 bytes transferred.
+
 ## Deploy
 
 Deploy root: `dist/site/`.
