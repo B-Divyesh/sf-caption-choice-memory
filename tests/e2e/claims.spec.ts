@@ -45,6 +45,7 @@ test("@claim:demo-isolation keeps sample changes in the demo namespace", async (
   page.on("request", (request) => outgoing.push(request.url()));
   await page.addInitScript(() => localStorage.setItem("caption-choice-memory:preference", "real-choice"));
   await page.goto("/?demo=1");
+  const demoOrigin = new URL(page.url()).origin;
   await page.locator("#demo-language-one").selectOption("fr");
   await page.getByRole("button", { name: "Apply caption choice" }).click();
   const stored = await page.evaluate(() => ({
@@ -53,7 +54,7 @@ test("@claim:demo-isolation keeps sample changes in the demo namespace", async (
   }));
   expect(stored.real).toBe("real-choice");
   expect(stored.demo).toContain('"primaryLanguage":"fr"');
-  expect(outgoing.filter((url) => new URL(url).origin !== "http://127.0.0.1:4173")).toEqual([]);
+  expect(outgoing.filter((url) => new URL(url).origin !== demoOrigin)).toEqual([]);
 });
 
 test("@claim:demo-reset removes sample data and restores the English-first sample", async ({ page }) => {
