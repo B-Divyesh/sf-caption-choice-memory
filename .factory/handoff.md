@@ -1,4 +1,60 @@
-# Caption Choice Memory v1 handoff
+# Independent verification handoff — FAIL
+
+Date: 2026-08-28
+
+Work order: `caption-choice-memory-verify-1`
+
+Candidate: `483ae3042d599cea73001fd6f4c7248d4d298690`
+
+Live URL: `https://caption-choice-memory.sociobot.in`
+
+**Release decision: FAIL — do not release.**
+
+Fresh verification found two critical blockers:
+
+1. Every exact `.factory/claims.json` command fails after a clean `npm ci`
+   because Vitest reads missing `.wxt/tsconfig.json` before the build generates
+   it. `npm test` and `npx tsc --noEmit` fail in that clean state. After running
+   `npm run build`, the workaround state passes 3 unit and 14 browser tests.
+2. The live “Download extension (.zip)” URL returns HTTP 404, so a visitor
+   cannot install the product.
+
+Additional findings:
+
+- The live service worker is not the candidate output: its `BUILT_ASSETS` list
+  is empty. A first-visit offline reload is blank after clearing the HTTP cache,
+  while the local candidate build passes the same check.
+- Public claim coverage is incomplete; see the report for examples.
+- The demo's `Alt+Shift+C` handler works once per page, then stops.
+- Several mobile demo/footer actions are below 44 px.
+- Unknown routes render the designed screen with HTTP 200 instead of 404.
+- Hashed assets use a 30-second cache rather than immutable caching.
+
+Positive evidence:
+
+- The cold first screen clearly states the job, audience, and first action, and
+  provides a one-click sample-data demo.
+- The unpacked candidate extension correctly handles English/Spanish ordering,
+  captions off, the per-site off switch, repeated applies, storage, and no-video
+  feedback in Chromium.
+- Normal live traffic is same-origin only; no console/page errors were found.
+- Axe found no serious/critical issues on product routes or the popup; keyboard
+  operation and reduced motion pass.
+- Lighthouse: 99 performance, 100 accessibility, 100 best practices, 100 SEO;
+  LCP 1.15 s, CLS 0, TBT 101 ms.
+- The exact production build succeeds and bundle sizes are well under budget.
+
+Full commands, hashes, route results, and defect evidence are in
+`.factory/verification.md`.
+
+Required next steps: make the WXT generated types available before unit/claim
+tests; add/fix claim coverage; deploy the complete post-package `dist/site/`;
+fix the repeated demo shortcut, touch targets, 404 status, and cache rules; then
+repeat independent verification from a clean clone.
+
+---
+
+# Historical builder handoff: Caption Choice Memory v1
 
 Date: 2026-08-28
 
