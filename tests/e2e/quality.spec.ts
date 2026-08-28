@@ -26,17 +26,25 @@ test("the first screen works at 390px", async ({ page }) => {
   expect(bodyWidth).toBeLessThanOrEqual(390);
 });
 
-test("mobile links and demo actions have 44px touch targets", async ({ page }) => {
+test("every directly operated demo control has a 44px by 44px mobile touch target", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/demo");
   for (const locator of [
     page.getByRole("button", { name: "Reset demo" }),
     page.getByRole("link", { name: "Start for real" }),
     page.getByRole("link", { name: "Demo", exact: true }),
+    page.getByRole("switch", { name: "Use on this site Visible per-site off switch" }),
+    page.getByRole("radio", { name: "Turn captions on" }),
+    page.getByRole("radio", { name: "Keep captions off" }),
+    page.getByLabel("First preferred language"),
+    page.getByLabel("Second preferred language"),
+    page.getByLabel("Sample player state"),
+    page.getByRole("button", { name: "Apply caption choice" }),
     page.getByLabel("Footer navigation").getByRole("link", { name: "Privacy", exact: true }),
     page.getByLabel("Footer navigation").getByRole("link", { name: "Terms", exact: true })
   ]) {
     const box = await locator.boundingBox();
+    expect(box?.width).toBeGreaterThanOrEqual(44);
     expect(box?.height).toBeGreaterThanOrEqual(44);
   }
 });

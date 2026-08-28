@@ -46,6 +46,8 @@ Load `.output/chrome-mv3` as an unpacked extension while `npm run dev` runs.
 ```sh
 npm test
 npm run build
+npm run test:live # after deployment; byte-compares the live ZIP and service worker
+npm run test:browser:live # after deployment; reruns browser QA against production
 ```
 
 `npm test` runs unit tests, creates both builds, starts the static preview, and
@@ -60,6 +62,8 @@ runs the Playwright claim and accessibility checks.
 
 Deploy `dist/site/` as the static root. Its `index.html` sits at that root.
 Azure Static Web Apps can use the included `staticwebapp.config.json`.
+`npm run build:site` also creates this complete deployable tree; it is safe as
+the work order's final build command and cannot leave the ZIP or raw worker out.
 
 ## Project map
 

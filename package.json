@@ -8,13 +8,17 @@
     "dev": "wxt",
     "dev:site": "vite --config vite.site.config.ts",
     "build:extension": "wxt build && wxt zip",
-    "build:site": "vite build --config vite.site.config.ts",
-    "build": "npm run build:extension && npm run build:site && node scripts/package.mjs",
+    "build:site:assets": "vite build --config vite.site.config.ts",
+    "build:site": "npm run build:extension && npm run build:site:assets && node scripts/package.mjs && npm run verify:dist",
+    "build": "npm run build:site",
     "preview": "vite preview --config vite.site.config.ts",
     "test": "npm run typecheck && npm run test:unit && npm run build && playwright test",
+    "test:browser:live": "PLAYWRIGHT_BASE_URL=https://caption-choice-memory.sociobot.in playwright test tests/e2e/quality.spec.ts tests/e2e/claims.spec.ts --grep-invert '@claim:(site-memory|private-requests)'",
     "test:unit": "vitest run",
+    "test:live": "node scripts/verify-live.mjs",
     "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "verify:dist": "node scripts/verify-release.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
