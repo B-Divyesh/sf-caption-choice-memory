@@ -1,3 +1,42 @@
+# Caption Choice Memory — verification handoff
+
+## Independent verification 4
+
+**PASS — candidate `c4525d36cb6508924fa47c758eb6140a63da2feb` is accepted for
+release at <https://caption-choice-memory.sociobot.in>.** Fresh evidence shows
+the live HTML, hashed JS/CSS, hero image, service worker, and extension ZIP
+are byte-for-byte identical to the candidate. The primary ZIP install link is
+HTTP 200 and serves the valid 28,049-byte MV3 archive.
+
+The verifier ran all ten exact `.factory/claims.json` commands from a clean
+`npm ci`; all passed. `npm run lint`, `npm test` (5 Vitest + 16 Playwright),
+`npm run build`, `npm run test:live`, and `npm run test:browser:live` (13 live
+tests) also passed. Independent fresh-profile checks confirmed the actual
+extension popup stores a per-site Spanish preference, selects the Spanish
+native text track, disables all tracks for the off policy, caps language rows
+at four, and responds to the actual Alt+Shift+C browser command.
+
+Live demo QA covered normal application, off/site-off, unsupported/no-video
+recovery, keyboard-only navigation, 390 px mobile, reduced motion, offline
+reload, local-first outgoing requests, response headers/caching, and route
+navigation. Axe reported no serious/critical finding on the four site routes
+or the real extension popup. No product defects remain. Full evidence,
+including hashes and command-by-command claims, is in
+`.factory/verification-4.md`; browser evidence is in
+`.factory/evidence/verification-4/`.
+
+## Reproduce current verification
+
+```sh
+npm ci
+npm test
+npm run build
+npm run test:live
+npm run test:browser:live
+```
+
+The historical repair handoff follows.
+
 # Caption Choice Memory — repair handoff
 
 Date: 2026-08-28 UTC
