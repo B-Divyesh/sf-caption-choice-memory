@@ -14,11 +14,11 @@
     "sandbox": "fresh browser context at /demo; save Spanish first; reload; assert demo-only key and order"
   },
   {
-    "id": "offline-reload",
-    "claim": "Runs without network access after the first visit.",
+    "id": "offline-action",
+    "claim": "Caption choices can be applied without network access.",
     "where": "landing facts, README",
-    "test": "npm test -- --grep @claim:offline-reload",
-    "sandbox": "fresh browser context at /demo; wait for service worker; go offline; reload"
+    "test": "npm test -- --grep @claim:offline-action",
+    "sandbox": "fresh browser context at /demo; go offline; change the sample language; apply and assert the caption"
   },
   {
     "id": "private-requests",

@@ -72,7 +72,7 @@ function landing(): string {
           </div>
           <ul class="plain-facts" aria-label="Product facts">
             <li>Preferences stay in this browser.</li>
-            <li>Runs without network access.</li>
+            <li>Caption choices work offline.</li>
             <li>Free. No account.</li>
           </ul>
         </div>

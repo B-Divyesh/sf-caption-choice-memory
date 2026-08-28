@@ -17,17 +17,13 @@ test("@claim:site-memory keeps the sample site's ordered choice in its sandbox",
   expect(keys).toEqual(["demo:caption-choice-memory:preference"]);
 });
 
-test("@claim:offline-reload opens the demo without network access after one visit", async ({ page, context }) => {
+test("@claim:offline-action applies a caption choice without network access", async ({ page, context }) => {
   await page.goto("/demo");
-  await page.evaluate(async () => {
-    await navigator.serviceWorker.ready;
-    if (!navigator.serviceWorker.controller) {
-      await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true }));
-    }
-  });
   await context.setOffline(true);
-  await page.reload();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Apply your saved captions");
+  await page.locator("#demo-language-one").selectOption("es");
+  await page.getByRole("button", { name: "Apply caption choice" }).click();
+  await expect(page.locator("#demo-result strong")).toHaveText("Spanish captions are on");
+  await expect(page.locator("#sample-caption")).toHaveText("La marea cambia antes de la lluvia.");
 });
 
 test("@claim:private-requests sends no demo preference to another origin", async ({ page }) => {

@@ -16,6 +16,9 @@ export default defineContentScript({
 
     async function apply() {
       const preference = await getPreference();
+      if (!preference.configured) {
+        return { kind: "disabled", title: "No choice saved", detail: "Open the extension and save this site's caption choice." };
+      }
       return applyCaptionChoice(preference);
     }
 
@@ -27,8 +30,30 @@ export default defineContentScript({
       return undefined;
     });
 
-    void getPreference().then((preference) => {
-      if (preference.enabled && document.querySelector("video, .html5-video-player")) void applyCaptionChoice(preference);
+    let pendingApply: number | undefined;
+    const scheduleApply = (delay = 180) => {
+      window.clearTimeout(pendingApply);
+      pendingApply = window.setTimeout(() => {
+        void getPreference().then((preference) => {
+          if (preference.configured && preference.enabled) void applyCaptionChoice(preference);
+        });
+      }, delay);
+    };
+
+    if (document.querySelector("video, .html5-video-player")) {
+      scheduleApply(0);
+      scheduleApply(1200);
+    }
+
+    document.addEventListener("loadedmetadata", () => scheduleApply(), true);
+    const observer = new MutationObserver((mutations) => {
+      const addedPlayer = mutations.some((mutation) =>
+        Array.from(mutation.addedNodes).some((node) =>
+          node instanceof Element && (node.matches("video, .html5-video-player") || Boolean(node.querySelector("video, .html5-video-player")))
+        )
+      );
+      if (addedPlayer) scheduleApply();
     });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
   }
 });

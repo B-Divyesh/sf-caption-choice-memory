@@ -235,7 +235,3 @@ kbd { padding: 3px 5px; border: 1px solid var(--ink); background: #fff; color: v
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
   .hero-art, .extension-card { transform: none; }
 }
-
-@supports (content-visibility: auto) {
-  .product-preview, .steps, .limits, .download { content-visibility: auto; contain-intrinsic-size: 800px; }
-}

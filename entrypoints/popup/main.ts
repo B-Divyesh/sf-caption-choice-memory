@@ -79,6 +79,7 @@ function readPreference(): SitePreference {
   const languages = Array.from(languageList.querySelectorAll("select")).map((select) => select.value);
   return {
     site: activeSite,
+    configured: true,
     enabled: enabledInput.checked,
     defaultState: selected.value as SitePreference["defaultState"],
     languages: cleanLanguages(languages),
@@ -148,12 +149,20 @@ async function start(): Promise<void> {
 
   const key = preferenceKey(activeSite);
   const stored = await browser.storage.local.get(key);
-  const preference = (stored[key] as SitePreference | undefined) ?? DEFAULT_PREFERENCE(activeSite);
+  const savedPreference = stored[key] as SitePreference | undefined;
+  const preference = savedPreference ?? DEFAULT_PREFERENCE(activeSite);
   enabledInput.checked = preference.enabled;
   const radio = form.querySelector<HTMLInputElement>(`input[value="${preference.defaultState}"]`);
   if (radio) radio.checked = true;
   renderLanguages(preference.languages.length ? preference.languages : ["en"]);
   setInteractiveState();
+  if (!savedPreference) {
+    showResult({
+      kind: "disabled",
+      title: "No choice saved for this site",
+      detail: "Choose a rule, then apply it to the current video."
+    });
+  }
 }
 
 void start();

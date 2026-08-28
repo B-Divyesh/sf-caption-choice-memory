@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir, rm } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const outputDirectory = ".output";
@@ -12,6 +12,15 @@ if (!extensionArchive) {
 
 await mkdir(downloadDirectory, { recursive: true });
 await copyFile(join(outputDirectory, extensionArchive), join(downloadDirectory, "caption-choice-memory.zip"));
+
+const siteIndex = await readFile("dist/site/index.html", "utf8");
+const builtAssets = [...siteIndex.matchAll(/(?:src|href)="(\/assets\/[^\"]+)"/g)].map((match) => match[1]);
+const serviceWorkerPath = "dist/site/service-worker.js";
+const serviceWorker = await readFile(serviceWorkerPath, "utf8");
+await writeFile(
+  serviceWorkerPath,
+  serviceWorker.replace("const BUILT_ASSETS = [];", `const BUILT_ASSETS = ${JSON.stringify(builtAssets)};`)
+);
 
 const sourceMapDirectory = "dist/site/assets";
 for (const file of await readdir(sourceMapDirectory)) {

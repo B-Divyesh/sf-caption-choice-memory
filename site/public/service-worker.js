@@ -1,4 +1,5 @@
-const CACHE = "caption-choice-memory-v2";
+const CACHE = "caption-choice-memory-v3";
+const BUILT_ASSETS = [];
 const SHELL = [
   "/",
   "/demo",
@@ -12,10 +13,11 @@ const SHELL = [
 self.addEventListener("install", (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    await cache.addAll(SHELL);
-    const html = await (await fetch("/")).text();
-    const builtAssets = [...html.matchAll(/(?:src|href)="(\/assets\/[^\"]+)"/g)].map((match) => match[1]);
-    await cache.addAll(builtAssets);
+    await Promise.all([...SHELL, ...BUILT_ASSETS].map(async (url) => {
+      const response = await fetch(new Request(url, { cache: "reload" }));
+      if (!response.ok) throw new Error(`Could not cache ${url}`);
+      await cache.put(url, response);
+    }));
     await self.skipWaiting();
   })());
 });

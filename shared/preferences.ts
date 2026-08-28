@@ -2,6 +2,7 @@ export type CaptionDefault = "on" | "off";
 
 export interface SitePreference {
   site: string;
+  configured: boolean;
   enabled: boolean;
   defaultState: CaptionDefault;
   languages: string[];
@@ -31,6 +32,7 @@ export const LANGUAGE_OPTIONS = [
 
 export const DEFAULT_PREFERENCE = (site: string): SitePreference => ({
   site,
+  configured: false,
   enabled: true,
   defaultState: "on",
   languages: ["en"],

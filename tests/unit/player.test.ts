@@ -5,6 +5,7 @@ import { languageMatches, type SitePreference } from "../../shared/preferences";
 
 const preference: SitePreference = {
   site: "watch.example",
+  configured: true,
   enabled: true,
   defaultState: "on",
   languages: ["en", "es"],
