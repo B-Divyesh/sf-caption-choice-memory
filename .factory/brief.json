@@ -1,0 +1,9 @@
+{
+  "slug": "caption-choice-memory",
+  "title": "Caption Choice Memory",
+  "summary": "Keep each site's caption language and default one action away.",
+  "artifact_class": "browser-extension",
+  "monetization": "free",
+  "success_measure": "Pilot users reduce median actions from page load to their desired caption state to one or fewer on supported players.",
+  "constraints": "Use only documented/player DOM controls; store preferences locally; provide a visible per-site off switch."
+}
