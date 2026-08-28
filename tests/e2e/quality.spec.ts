@@ -26,6 +26,33 @@ test("the first screen works at 390px", async ({ page }) => {
   expect(bodyWidth).toBeLessThanOrEqual(390);
 });
 
+test("mobile links and demo actions have 44px touch targets", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/demo");
+  for (const locator of [
+    page.getByRole("button", { name: "Reset demo" }),
+    page.getByRole("link", { name: "Start for real" }),
+    page.getByRole("link", { name: "Demo", exact: true }),
+    page.getByLabel("Footer navigation").getByRole("link", { name: "Privacy", exact: true }),
+    page.getByLabel("Footer navigation").getByRole("link", { name: "Terms", exact: true })
+  ]) {
+    const box = await locator.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+  }
+});
+
+test("static deployment rules preserve known routes, real 404s, immutable assets, and service-worker updates", async () => {
+  const config = await import("node:fs/promises").then(({ readFile }) => readFile("site/public/staticwebapp.config.json", "utf8"));
+  expect(config).toContain('"route": "/demo", "rewrite": "/index.html"');
+  expect(config).toContain('"route": "/privacy", "rewrite": "/index.html"');
+  expect(config).toContain('"route": "/terms", "rewrite": "/index.html"');
+  expect(config).not.toContain("navigationFallback");
+  expect(config).toContain('"rewrite": "/404.html"');
+  expect(config).toContain("max-age=31536000, immutable");
+  expect(config).toContain('"route": "/service-worker.js"');
+  expect(config).toContain('"Cache-Control": "no-cache"');
+});
+
 test("internal navigation updates history, title, and focus", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Demo", exact: true }).click();

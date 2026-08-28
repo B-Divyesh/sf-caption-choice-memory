@@ -1,14 +1,14 @@
 {
-  "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
+    "skipLibCheck": true,
     "noEmit": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["node", "vitest/globals", "vite/client"]
   },
-  "include": [".wxt/wxt.d.ts", "entrypoints", "shared", "site/src", "tests", "wxt.config.ts", "vite.site.config.ts"]
+  "include": ["types", "entrypoints", "shared", "site/src", "tests", "wxt.config.ts", "vite.site.config.ts"]
 }

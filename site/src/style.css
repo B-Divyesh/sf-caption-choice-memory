@@ -49,7 +49,7 @@ p { max-width: 66ch; }
 .wordmark { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; font: 900 14px/1.05 "Arial Black", Arial, sans-serif; text-decoration: none; text-transform: uppercase; }
 .wordmark-icon { display: grid; width: 44px; height: 44px; place-items: center; border: var(--rule); background: var(--blue); color: #fff; box-shadow: 3px 3px 0 var(--ink); }
 .site-header nav, .site-footer nav { display: flex; align-items: center; gap: clamp(16px, 3vw, 36px); }
-.site-header nav a { min-height: 44px; display: inline-flex; align-items: center; font-weight: 800; }
+.site-header nav a, .site-footer nav a { min-height: 44px; display: inline-flex; align-items: center; font-weight: 800; }
 
 .hero {
   display: grid;
@@ -135,7 +135,7 @@ p { max-width: 66ch; }
 
 .demo-banner { position: sticky; z-index: 20; top: 0; display: flex; min-height: 52px; align-items: center; justify-content: center; gap: 28px; padding: 8px 20px; border-bottom: var(--rule); background: var(--yellow); font-size: 14px; }
 .demo-banner > div { display: flex; gap: 16px; align-items: center; }
-.text-button { min-height: 36px; padding: 0; border: 0; background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+.text-button, .demo-banner a { display: inline-flex; min-height: 44px; align-items: center; padding: 0 2px; border: 0; background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
 .demo-banner a, .text-button { font-weight: 800; }
 .demo-main { max-width: 1240px; margin: 0 auto; padding: clamp(48px,6vw,88px) 20px clamp(72px,8vw,120px); }
 .demo-intro { margin-bottom: 48px; }

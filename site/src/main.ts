@@ -3,6 +3,7 @@ import "./style.css";
 const app = document.querySelector<HTMLDivElement>("#app")!;
 const DEMO_KEY = "demo:caption-choice-memory:preference";
 const BUILD_ID = "v1.0.0";
+let demoKeyboardAbort: AbortController | undefined;
 
 type Route = "/" | "/demo" | "/privacy" | "/terms" | "/404";
 type DemoState = {
@@ -91,7 +92,7 @@ function landing(): string {
         <div class="preview-copy">
           <p class="kicker">The extension</p>
           <h2 id="preview-heading">Set the rule once</h2>
-          <p>Choose a caption default and rank up to four languages for each site.</p>
+          <p>Choose a caption default and save up to four languages for each site.</p>
           <a class="text-link" href="/demo" data-link>Open the working demo <span aria-hidden="true">→</span></a>
         </div>
         <div class="extension-card" aria-label="Preview of the extension controls">
@@ -108,7 +109,7 @@ function landing(): string {
         <p class="kicker">Three moves</p>
         <h2 id="steps-heading">How it works</h2>
         <ol>
-          <li><span class="step-number">1</span><div><h3>Open the extension</h3><p>It reads only the current site's name.</p></div></li>
+          <li><span class="step-number">1</span><div><h3>Open the extension</h3><p>It saves a caption choice for the current site.</p></div></li>
           <li><span class="step-number">2</span><div><h3>Save your order</h3><p>Pick captions on or off, then rank your languages.</p></div></li>
           <li><span class="step-number">3</span><div><h3>Apply the choice</h3><p>Use the button or keyboard shortcut on a supported player.</p></div></li>
         </ol>
@@ -117,12 +118,9 @@ function landing(): string {
       <section class="limits" aria-labelledby="limits-heading">
         <div>
           <p class="kicker">Clear limits</p>
-          <h2 id="limits-heading">It changes player controls, not video files</h2>
+          <h2 id="limits-heading">It changes exposed player controls</h2>
         </div>
         <ul>
-          <li>No subtitle downloads.</li>
-          <li>No translation or caption generation.</li>
-          <li>No DRM changes.</li>
           <li>Unsupported players get a clear notice.</li>
         </ul>
         <p>The extension uses exposed caption tracks and player buttons. Your browser stores each site's choice locally.</p>
@@ -216,9 +214,9 @@ function privacy(): string {
       <h1 tabindex="-1">Your caption choices stay in your browser</h1>
       <p class="lede">Caption Choice Memory has no account, analytics, ads, or remote database.</p>
       <section><h2>What the extension stores</h2><p>It stores each site's name, on or off setting, and ordered language list in browser extension storage.</p></section>
-      <section><h2>What the extension reads</h2><p>It reads the current site's name and exposed video caption controls. It does not read video files or page text.</p></section>
-      <section><h2>What leaves your device</h2><p>No caption preference leaves your device. Downloading the extension uses the same basic server logs as any file request.</p></section>
-      <section><h2>Delete your choices</h2><p>Remove the extension to delete its stored choices. Demo data uses a separate key and resets from the demo banner.</p></section>
+      <section><h2>What the extension reads</h2><p>It reads the current site's name and exposed video caption controls.</p></section>
+      <section><h2>What leaves your device</h2><p>No caption preference leaves your device.</p></section>
+      <section><h2>Delete demo data</h2><p>Use Reset demo to remove the sample data key.</p></section>
       <p class="legal-date">Effective 28 August 2026.</p>
     </main>
     ${footer()}`;
@@ -264,6 +262,8 @@ function updateMetadata(route: Route): void {
 }
 
 function render(options: { focus?: boolean } = {}): void {
+  demoKeyboardAbort?.abort();
+  demoKeyboardAbort = undefined;
   const route = currentRoute();
   updateMetadata(route);
   app.innerHTML = route === "/" ? landing() : route === "/demo" ? demo() : route === "/privacy" ? privacy() : route === "/terms" ? terms() : notFound();
@@ -346,13 +346,12 @@ function bindDemo(): void {
   };
 
   form.addEventListener("submit", (event) => { event.preventDefault(); apply(); });
-  document.addEventListener("keydown", demoShortcut, { once: true });
+  demoKeyboardAbort = new AbortController();
+  document.addEventListener("keydown", demoShortcut, { signal: demoKeyboardAbort.signal });
   function demoShortcut(event: KeyboardEvent) {
     if (event.altKey && event.shiftKey && event.code === "KeyC") {
       event.preventDefault();
       apply();
-    } else {
-      document.addEventListener("keydown", demoShortcut, { once: true });
     }
   }
   reset.addEventListener("click", () => { localStorage.removeItem(DEMO_KEY); render({ focus: true }); });

@@ -11,8 +11,10 @@
     "build:site": "vite build --config vite.site.config.ts",
     "build": "npm run build:extension && npm run build:site && node scripts/package.mjs",
     "preview": "vite preview --config vite.site.config.ts",
-    "test": "npm run test:unit && npm run build && playwright test",
-    "test:unit": "vitest run"
+    "test": "npm run typecheck && npm run test:unit && npm run build && playwright test",
+    "test:unit": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",

@@ -13,15 +13,10 @@ sample data. The demo writes only to the
 ## What works
 
 - Native HTML5 video tracks use the first preferred language available.
-- YouTube uses its exposed caption button. Its language menu is used when the
-  current player exposes an English-labelled caption menu.
 - `Alt+Shift+C` applies the saved choice to the current video.
 - Unsupported players show a notice with the next step.
 - Preferences stay in Chrome extension storage and make no remote request.
 - Caption choices can be applied without network access.
-
-Caption Choice Memory does not download, translate, or generate subtitles. It
-does not modify video files or DRM controls.
 
 ## Install the packaged extension
 

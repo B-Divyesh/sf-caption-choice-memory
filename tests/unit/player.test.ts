@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import { applyCaptionChoice } from "../../shared/player";
-import { languageMatches, type SitePreference } from "../../shared/preferences";
+import { cleanLanguages, languageMatches, type SitePreference } from "../../shared/preferences";
 
 const preference: SitePreference = {
   site: "watch.example",
@@ -20,6 +21,17 @@ describe("caption player rules", () => {
   it("matches regional language codes", () => {
     expect(languageMatches("en-US", "en")).toBe(true);
     expect(languageMatches("fr", "en")).toBe(false);
+  });
+
+  it("@claim:language-limit keeps the first four unique language choices in order", () => {
+    expect(cleanLanguages(["es", "en", "fr", "es", "de", "ja"])).toEqual(["es", "en", "fr", "de"]);
+  });
+
+  it("@claim:free-no-account is configured as a free local extension", () => {
+    const brief = JSON.parse(readFileSync(".factory/brief.json", "utf8")) as { monetization: string };
+    const manifest = readFileSync("wxt.config.ts", "utf8");
+    expect(brief.monetization).toBe("free");
+    expect(manifest).not.toMatch(/billing|payment|sign.?in/i);
   });
 
   it("@claim:player-controls applies the first preferred exposed track", async () => {

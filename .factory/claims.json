@@ -11,7 +11,7 @@
     "claim": "Keeps each site's ordered caption choice in browser storage.",
     "where": "landing facts, privacy, README",
     "test": "npm test -- --grep @claim:site-memory",
-    "sandbox": "fresh browser context at /demo; save Spanish first; reload; assert demo-only key and order"
+    "sandbox": "fresh Chromium extension profile; save a site preference through the real popup; assert the site-prefixed extension storage record"
   },
   {
     "id": "offline-action",
@@ -22,10 +22,10 @@
   },
   {
     "id": "private-requests",
-    "claim": "Sends no caption preference to another origin.",
+    "claim": "Sends no caption preference to another origin and has no account, analytics, ads, or remote database.",
     "where": "privacy, README",
     "test": "npm test -- --grep @claim:private-requests",
-    "sandbox": "fresh browser context at /demo; record every request while editing and applying a preference"
+    "sandbox": "fresh Chromium extension profile; record all extension exercise requests while saving and applying a preference"
   },
   {
     "id": "unsupported-notice",
@@ -54,5 +54,19 @@
     "where": "landing download, README",
     "test": "npm test -- --grep @claim:download-package",
     "sandbox": "built static site; request zip; assert ZIP signature and non-empty package"
+  },
+  {
+    "id": "language-limit",
+    "claim": "Keeps an ordered list of up to four preferred languages for each site.",
+    "where": "landing preview, README",
+    "test": "npm run test:unit -- --testNamePattern @claim:language-limit",
+    "sandbox": "unit preference input with five ordered language codes; assert the first four unique codes remain"
+  },
+  {
+    "id": "free-no-account",
+    "claim": "Free. No account.",
+    "where": "landing facts, terms",
+    "test": "npm run test:unit -- --testNamePattern @claim:free-no-account",
+    "sandbox": "product brief and browser package metadata; assert the product is free and has no billing or authentication dependency"
   }
 ]
