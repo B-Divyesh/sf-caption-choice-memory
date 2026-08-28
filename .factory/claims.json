@@ -1,0 +1,58 @@
+[
+  {
+    "id": "one-action",
+    "claim": "Applies a saved caption choice in one action on a supported player.",
+    "where": "landing first screen, demo, README",
+    "test": "npm test -- --grep @claim:one-action",
+    "sandbox": "fresh browser context at /demo; click Apply once; assert the sample caption state"
+  },
+  {
+    "id": "site-memory",
+    "claim": "Keeps each site's ordered caption choice in browser storage.",
+    "where": "landing facts, privacy, README",
+    "test": "npm test -- --grep @claim:site-memory",
+    "sandbox": "fresh browser context at /demo; save Spanish first; reload; assert demo-only key and order"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Runs without network access after the first visit.",
+    "where": "landing facts, README",
+    "test": "npm test -- --grep @claim:offline-reload",
+    "sandbox": "fresh browser context at /demo; wait for service worker; go offline; reload"
+  },
+  {
+    "id": "private-requests",
+    "claim": "Sends no caption preference to another origin.",
+    "where": "privacy, README",
+    "test": "npm test -- --grep @claim:private-requests",
+    "sandbox": "fresh browser context at /demo; record every request while editing and applying a preference"
+  },
+  {
+    "id": "unsupported-notice",
+    "claim": "Shows a clear notice when a player does not expose caption controls.",
+    "where": "landing limits, demo, README",
+    "test": "npm test -- --grep @claim:unsupported-notice",
+    "sandbox": "fresh browser context at /demo; choose unsupported sample player; apply"
+  },
+  {
+    "id": "keyboard-shortcut",
+    "claim": "Applies the saved choice with Alt+Shift+C.",
+    "where": "landing how it works, demo, README",
+    "test": "npm test -- --grep @claim:keyboard-shortcut",
+    "sandbox": "fresh browser context at /demo; select French; press Alt+Shift+C; assert French caption"
+  },
+  {
+    "id": "player-controls",
+    "claim": "Uses exposed text tracks and player controls.",
+    "where": "landing limits, privacy, README",
+    "test": "npm run test:unit -- --testNamePattern @claim:player-controls",
+    "sandbox": "jsdom page with two exposed text tracks; assert first preferred track becomes showing"
+  },
+  {
+    "id": "download-package",
+    "claim": "Provides a packaged MV3 Chrome extension download.",
+    "where": "landing download, README",
+    "test": "npm test -- --grep @claim:download-package",
+    "sandbox": "built static site; request zip; assert ZIP signature and non-empty package"
+  }
+]

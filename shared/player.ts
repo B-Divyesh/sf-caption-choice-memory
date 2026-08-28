@@ -23,6 +23,7 @@ function applyNativeTracks(video: HTMLVideoElement, preference: SitePreference):
     .find(Boolean) ?? tracks.find((track) => track.kind === "captions" || track.kind === "subtitles") ?? tracks[0];
 
   for (const track of tracks) track.mode = track === chosen ? "showing" : "disabled";
+  if (!chosen) return null;
   const label = chosen.label || chosen.language || "the first available language";
   return {
     kind: "applied",

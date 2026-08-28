@@ -132,9 +132,9 @@ form.addEventListener("submit", async (event) => {
 
 async function start(): Promise<void> {
   const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
-  activeTabId = tab.id;
+  activeTabId = tab?.id;
   try {
-    const url = new URL(tab.url ?? "");
+    const url = new URL(tab?.url ?? "");
     if (!/^https?:$/.test(url.protocol)) throw new Error("Unsupported URL");
     activeSite = url.hostname;
     document.querySelector("#site-heading")!.textContent = activeSite;
