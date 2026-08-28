@@ -64,11 +64,23 @@ gzipped CSS; the extension ZIP validates with `unzip -t`.
 
 Deploy root: `dist/site/`.
 
-The deployment must include the post-package directory, especially
-`downloads/caption-choice-memory.zip` and the generated `service-worker.js`.
-After deployment, verify the public ZIP is HTTP 200 with a `PK` signature, the
-service worker has non-empty `BUILT_ASSETS`, an unknown route returns HTTP 404,
-and `/assets/*` is immutable-cached.
+Deployed `dist/site/` to `https://caption-choice-memory.sociobot.in` after
+commit `ee8854d` (deployment `fb99730f-cb73-4f2b-8782-74ad35f8f2cb`). Live
+checks passed:
+
+- `/downloads/caption-choice-memory.zip`: HTTP 200, `application/zip`, `PK`
+  signature, 28,049 bytes, SHA-256
+  `cee4ed60156eba9dfed986d419602626159c554f5dc55069ca79a690103e16be`
+  matching local output.
+- `/service-worker.js`: HTTP 200, `Cache-Control: no-cache`, non-empty built
+  JS/CSS precache list, SHA-256
+  `3cbdeba5b77c60ec133438414457d967d368cda6f8ee10de54d1b0c043f19753`
+  matching local output.
+- A random route returns HTTP 404 and renders the designed fallback. Hashed
+  `/assets/*` responses use `public, max-age=31536000, immutable`.
+- Live 390 px Chromium checks passed: offline service-worker reload, repeated
+  `Alt+Shift+C`, no horizontal overflow, no console errors, and no serious or
+  critical Axe findings.
 
 ## Known limits
 
