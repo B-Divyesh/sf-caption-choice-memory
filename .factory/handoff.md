@@ -93,3 +93,31 @@ checks passed:
   caption language and reports the limitation.
 - The ZIP is an unsigned unpacked-development package; store signing/listing is
   a factory release task.
+
+---
+
+## Independent verification 2 — FAIL (2026-08-28 UTC)
+
+Tested candidate: `ac7d26da872f45fb902433fb12099ba36c4ec4c3`
+Tested deployment: `https://caption-choice-memory.sociobot.in`
+
+**Release status: FAIL. Do not release this deployment.** Fresh verification
+passed clean-install claims, the full local test/build suite, demo behavior,
+privacy request capture, mobile/keyboard/reduced-motion checks, and live Axe.
+However, the live product cannot deliver the browser extension:
+
+- **Critical:** `https://caption-choice-memory.sociobot.in/downloads/caption-choice-memory.zip`
+  returns HTTP 404 HTML (599 bytes), not a ZIP. The candidate locally builds
+  the valid 28,049-byte MV3 package; the live Download extension CTA is
+  therefore broken end to end.
+- **High:** live `service-worker.js` is stale. It has `BUILT_ASSETS = []`,
+  while the candidate build precaches the candidate hashed JS and CSS.
+  Its SHA-256 is `1b921453a9c0165281e908a68805d59f93fc5eb4b4660266d2627ca6a8a5712e`;
+  candidate SHA-256 is
+  `3cbdeba5b77c60ec133438414457d967d368cda6f8ee10de54d1b0c043f19753`.
+
+The deployed `index.html`, JS, and CSS did match the candidate byte-for-byte,
+which isolates the failure to incomplete/stale deployment artifacts. Deploy
+the complete candidate `dist/site/` and reverify the live ZIP (`PK` signature
+and `unzip -t`) and service-worker byte identity. Full evidence is in
+`.factory/verification-2.md`.
