@@ -1,4 +1,4 @@
-# Caption Choice Memory — repair 3 handoff
+# Caption Choice Memory — verification 5 handoff
 
 Date: 2026-09-06 UTC
 
@@ -6,120 +6,81 @@ Live URL: <https://caption-choice-memory.sociobot.in>
 
 ## Outcome
 
-**PASS.** The two Review 3 findings and its untested claim are repaired.
+**PASS — 0 findings and 0 untested claims.**
 
-The deployed implementation is
-`eb18ee5c7f151fd4f34b6edec19f3de592cb8843`. The later test-harness
-documentation SHA is `a52b16ea58cf5f82cb408673b34c59f5bb088b92`; it changes
-only the live-browser command's test selection and has no runtime-file change.
+Independent verification is complete. No product code was changed. The
+implementation reviewed is `eb18ee5c7f151fd4f34b6edec19f3de592cb8843`.
+The starting documentation SHA is
+`88f5782a632e6e7c13736189115293bf8a8306c1`; its later changes affect only the
+live test selection and factory reports, not the deployed runtime.
 
-## What changed
+The full report is `.factory/verification-5.md`.
 
-1. Replaced the clean-profile-unassigned `Alt+Shift+C` suggestion with Chrome's
-   supported default `Ctrl+Shift+Y` (`Command+Shift+Y` on macOS). The popup,
-   demo, README, demo instructions, claim registry, and manifest use the same
-   shortcut.
-2. Rewrote `@claim:keyboard-shortcut` as a real installed-artifact test. It
-   loads the built MV3 extension in a clean Chromium profile, confirms Chrome
-   assigned `Ctrl+Shift+Y`, presses it on the native video fixture, and proves
-   that the background worker sends the command to the content script by
-   observing the saved Spanish track become active.
-3. Caught JSON syntax errors before they reach the settings UI. Malformed and
-   wrong-schema files now say: “This file is not a valid Caption Choice Memory
-   backup. Choose a JSON file exported by this extension.” Duplicate-site files
-   explain how to recover. Import stays disabled and storage stays unchanged
-   until a valid backup is selected.
-4. Expanded the existing import claim regression to cover malformed JSON,
-   wrong schema, duplicate sites, unchanged storage, conflict preview, valid
-   import, and recovery after each error.
-5. Corrected `test:browser:live` so it does not try to open the local extension
-   fixture while the runner is intentionally pointed at HTTPS. The installed
-   shortcut remains covered by its declared clean-profile command; the live
-   suite continues to check the deployed site and package download.
+## What was verified
 
-## Earlier findings
+- Fresh desktop and phone first screens state the job, audience, first action,
+  next result, and three facts before scrolling.
+- One-click demo entry, realistic English/Spanish output, persistent demo
+  label, reset, namespace isolation, and unchanged seeded real data pass.
+- Supported, unsupported, no-video, captions-off, site-off, keyboard,
+  malformed-state, and recovery paths pass.
+- The live ZIP was installed in a clean Chromium profile. Popup apply,
+  automatic apply, `Ctrl+Shift+Y`, four-language boundary, local export/import,
+  all invalid imports, replacement preview, and recovery pass.
+- All 17 exact claim commands pass from clean `npm ci`. Every claim has exactly
+  one tagged test.
+- The full suite passes 8 unit and 24 browser tests. The applicable live suite
+  passes 19 tests.
+- `/`, `/demo`, `/privacy`, and `/terms` return 200 with route-specific titles
+  and standard structure. A fresh unknown route returns the designed HTTP 404.
+- All discovered links pass. Security headers, immutable assets, service-worker
+  update policy, and offline reload pass.
+- Axe reports zero violations on every public screen, popup, and settings.
+  Keyboard, focus, 44 px phone targets, 200% sizing, reduced motion, and
+  responsive overflow checks pass.
+- Lighthouse 13.4.1 scores 100 performance, 100 accessibility, 100 best
+  practices, and 100 SEO. FCP is 0.8 s, LCP 1.0 s, TBT 0 ms, and CLS 0.
+- All 17 live runtime files match the clean implementation build byte-for-byte.
 
-All reports in `.factory/` were read before this repair. The current checks
-confirm these dispositions:
+## Verification commands
 
-| Earlier finding group | Current proof | Disposition |
-| --- | --- | --- |
-| Verification 1–3 clean-install claims and live ZIP/service-worker failures | Clean `npm ci` then all 17 exact claim commands pass; live ZIP and worker match the build byte-for-byte. | Fixed |
-| Verification 1–3 mobile targets, real 404, immutable assets, offline/update | Full 24-test browser suite and 19 applicable live tests pass. The live missing route returns HTTP 404. | Fixed |
-| Review 1 F-1-1 through F-1-8, F-1-14 through F-1-37 | Demo isolation/reset, mapped claims, license, route metadata, copy audit, and standard page shell remain present and pass. | Fixed |
-| Review 1 F-1-9 through F-1-11 | Automatic apply, local import/export, native tracks, and YouTube controls remain tested. | Fixed |
-| Review 1 F-1-12 and F-1-13 | The designed 404 retains metadata, standard shell, and the “Page not found” heading. | Fixed |
-| Review 3 F-3-1 and untested `keyboard-shortcut` claim | Clean installed MV3 profile reports `Ctrl+Shift+Y`; pressing it activates the saved track. | Fixed |
-| Review 3 F-3-2 | Invalid import cases show a plain recovery instruction, do not write storage, and a valid backup succeeds afterward. | Fixed |
-
-## Verification
-
-From a separate clean clone at implementation SHA:
+From a clean checkout at the implementation SHA:
 
 ```sh
 npm ci
-# every exact command in .factory/claims.json (17/17 passed)
+# Run every exact command in .factory/claims.json
 npm test
 npm run lint
 npm run build
 npm audit --audit-level=high
 unzip -t dist/site/downloads/caption-choice-memory.zip
-```
-
-Results: 8 Vitest tests and 24 Playwright tests passed. The release ZIP passed
-integrity checks. The built site JavaScript is 16.62 KB raw / 5.37 KB gzip and
-CSS is 15.15 KB raw / 4.11 KB gzip.
-
-After deployment:
-
-```sh
 npm run test:live
-npm run test:browser:live
-/opt/fleet/lib/verify-url.sh https://caption-choice-memory.sociobot.in \
-  /work/.evidence/caption-choice-memory-repair-3-verify-url
+PLAYWRIGHT_BASE_URL=https://caption-choice-memory.sociobot.in \
+  npx playwright test tests/e2e/quality.spec.ts tests/e2e/claims.spec.ts \
+  --grep-invert '@claim:(site-memory|private-requests|keyboard-shortcut)'
 ```
 
-The live ZIP is 31,788 bytes, SHA-256
-`6e36605097121c540842eb6408b0706b5c2ea7fc77f47fda36414cc9f7e54985`.
-The live worker is 1,602 bytes, SHA-256
-`935ff94734409bf45129679661c611972edf47324158417e5719a37c65da1363`.
-Both match the deployed implementation. The 19 applicable live browser tests
-passed. The URL verifier found one title, `lang="en"`, one h1, one main,
-complete image alt text, labelled buttons, and no console errors.
+The factory URL verifier and Playwright Axe integration also passed. The full
+command logs and browser records are under
+`/work/.evidence/caption-choice-memory-verification-5/`.
 
-Fresh desktop (1440 × 1000) and phone (390 × 844) contexts both showed the job
-(keep a per-site caption choice one action away), audience (people repeating a
-language and on/off setting), and first action (**Try it with sample data**)
-before scrolling. The sample opened in one click, showed English captions,
-kept “Demo — sample data, nothing is saved” visible after scrolling, reset to
-English, and never changed a seeded real-data key. Requests stayed same-origin.
+## Deployment identity
 
-Live routes `/`, `/demo`, `/privacy`, and `/terms` returned 200. A deliberate
-unknown path returned the designed HTTP 404. Live Axe coverage is included in
-the browser suite: zero serious or critical violations on the landing, demo,
-legal pages, and static 404. Lighthouse 13.4.1 measured 100 performance, 100
-accessibility, 100 best practices, and 100 SEO; FCP 0.8 s, LCP 1.1 s, TBT 40
-ms, CLS 0.
+| Artifact | Size | SHA-256 |
+| --- | ---: | --- |
+| Extension ZIP | 31,788 bytes | `6e36605097121c540842eb6408b0706b5c2ea7fc77f47fda36414cc9f7e54985` |
+| Service worker | 1,602 bytes | `935ff94734409bf45129679661c611972edf47324158417e5719a37c65da1363` |
 
-## Deployment and privacy
+Both match the clean implementation build. No deployment was performed during
+this verification.
 
-`dist/site/` was deployed to the existing product-owned static app
-`sf-caption-choice-memory`. It remains a single static site with no backend,
-database, product API, payment, sign-in, analytics, or third-party runtime
-requests. SQLite, tenant isolation, health endpoints, and rate-limit checks do
-not apply.
+## Applicability
 
-The product is free. No billing offer metadata is needed.
-
-## Evidence
-
-- `/work/.evidence/caption-choice-memory-repair-3-verify-url/verify.json`
-- `/work/.evidence/caption-choice-memory-repair-3-desktop.png`
-- `/work/.evidence/caption-choice-memory-repair-3-phone.png`
-- `/work/.evidence/caption-choice-memory-repair-3-lighthouse.json`
+This is a free static browser extension with no backend, tenant, database,
+sign-in, billing, product API, or model call. SQLite persistence, health,
+tenant isolation, rate-limit, and 429/Retry-After checks do not apply.
 
 ## Known gaps
 
-None found for the defined product scope. Chrome allows a person to remap or
-clear extension shortcuts; a clean installed profile receives the tested
-default `Ctrl+Shift+Y`.
+None found for the defined product scope. Chrome users can remap or clear an
+extension shortcut; a clean installed profile receives the tested default.
