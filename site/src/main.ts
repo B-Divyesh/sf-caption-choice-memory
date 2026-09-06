@@ -187,7 +187,7 @@ function demo(): string {
           </fieldset>
           <label class="player-select">Sample player state<select id="demo-player">${playerOptions(state.player)}</select></label>
           <button class="button primary full" type="submit">Apply caption choice</button>
-          <p class="shortcut-note"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> applies the same choice.</p>
+          <p class="shortcut-note"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Y</kbd> applies the same choice.</p>
           <div id="demo-result" class="demo-result" role="status" aria-live="polite"><strong>English captions are on</strong><span>Sample caption choice loaded.</span></div>
         </form>
       </section>
@@ -361,7 +361,7 @@ function bindDemo(): void {
   demoKeyboardAbort = new AbortController();
   document.addEventListener("keydown", demoShortcut, { signal: demoKeyboardAbort.signal });
   function demoShortcut(event: KeyboardEvent) {
-    if (event.altKey && event.shiftKey && event.code === "KeyC") {
+    if (event.ctrlKey && event.shiftKey && event.code === "KeyY") {
       event.preventDefault();
       apply();
     }

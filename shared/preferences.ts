@@ -62,6 +62,8 @@ export interface ChoiceExport {
   choices: SitePreference[];
 }
 
+export const INVALID_BACKUP_MESSAGE = "This file is not a valid Caption Choice Memory backup. Choose a JSON file exported by this extension.";
+
 export function isSitePreference(value: unknown): value is SitePreference {
   if (!value || typeof value !== "object") return false;
   const preference = value as Partial<SitePreference>;
@@ -76,15 +78,20 @@ export function isSitePreference(value: unknown): value is SitePreference {
 }
 
 export function parseChoiceExport(text: string): ChoiceExport {
-  const parsed: unknown = JSON.parse(text);
-  if (!parsed || typeof parsed !== "object") throw new Error("Choose a Caption Choice Memory backup file.");
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error(INVALID_BACKUP_MESSAGE);
+  }
+  if (!parsed || typeof parsed !== "object") throw new Error(INVALID_BACKUP_MESSAGE);
   const backup = parsed as Partial<ChoiceExport>;
   if (backup.version !== 1 || !Array.isArray(backup.choices) || !backup.choices.every(isSitePreference)) {
-    throw new Error("This file is not a valid Caption Choice Memory backup.");
+    throw new Error(INVALID_BACKUP_MESSAGE);
   }
   const sites = new Set<string>();
   for (const choice of backup.choices) {
-    if (sites.has(choice.site)) throw new Error("This backup has the same site more than once.");
+    if (sites.has(choice.site)) throw new Error("This backup contains the same site more than once. Remove the duplicate, then choose the file again.");
     sites.add(choice.site);
   }
   return { version: 1, choices: backup.choices.map((choice) => ({ ...choice, languages: cleanLanguages(choice.languages) })) };

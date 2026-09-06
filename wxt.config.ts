@@ -20,8 +20,8 @@ export default defineConfig({
     commands: {
       "apply-caption-choice": {
         suggested_key: {
-          default: "Alt+Shift+C",
-          mac: "Command+Shift+C"
+          default: "Ctrl+Shift+Y",
+          mac: "Command+Shift+Y"
         },
         description: "Apply the saved caption choice on this site"
       }

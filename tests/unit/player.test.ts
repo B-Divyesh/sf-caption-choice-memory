@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { applyCaptionChoice } from "../../shared/player";
-import { cleanLanguages, languageMatches, parseChoiceExport, type SitePreference } from "../../shared/preferences";
+import { INVALID_BACKUP_MESSAGE, cleanLanguages, languageMatches, parseChoiceExport, type SitePreference } from "../../shared/preferences";
 
 const preference: SitePreference = {
   site: "watch.example",
@@ -88,7 +88,8 @@ describe("caption player rules", () => {
     expect(selectedLanguage).toBe(true);
   });
 
-  it("rejects malformed backups before storage", () => {
+  it("rejects malformed backups with a plain recovery instruction", () => {
+    expect(() => parseChoiceExport("{broken")).toThrow(INVALID_BACKUP_MESSAGE);
     expect(() => parseChoiceExport('{"version":1,"choices":[{"site":"x"}]}')).toThrow("not a valid");
     expect(parseChoiceExport(JSON.stringify({ version: 1, choices: [preference] }))).toMatchObject({ version: 1, choices: [{ site: "watch.example" }] });
   });

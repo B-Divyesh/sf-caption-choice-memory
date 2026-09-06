@@ -17,7 +17,7 @@ frame. Press **Apply caption choice** to prove the one-action path.
 - Player states: supported, captions not exposed, and no video
 
 The player state selector exposes success, unsupported, and empty outcomes. The
-keyboard path is `Alt+Shift+C`.
+keyboard path is `Ctrl+Shift+Y`.
 
 ## Isolation and reset
 

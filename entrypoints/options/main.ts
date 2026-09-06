@@ -49,7 +49,9 @@ importFile.addEventListener("change", async () => {
     confirmButton.disabled = false;
   } catch (error) {
     preview.hidden = false;
-    preview.textContent = error instanceof Error ? error.message : "This file could not be read.";
+    preview.textContent = error instanceof Error
+      ? error.message
+      : "This file could not be read. Choose a JSON file exported by Caption Choice Memory.";
   }
 });
 

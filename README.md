@@ -14,7 +14,7 @@ Demo changes are stored separately from your caption choices.
 - Saved choices apply when a supported video appears.
 - On supported videos, the extension selects the first preferred language available.
 - It supports native HTML5 caption tracks and YouTube caption controls.
-- `Alt+Shift+C` applies the saved choice to the current video.
+- `Ctrl+Shift+Y` applies the saved choice to the current video.
 - Unsupported players show a notice with the next step.
 - Caption choices stay in this browser and are not sent elsewhere.
 - Caption choices can be applied without network access.

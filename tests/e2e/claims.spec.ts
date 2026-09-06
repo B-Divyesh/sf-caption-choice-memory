@@ -127,15 +127,38 @@ test("@claim:unsupported-notice explains an unsupported player", async ({ page }
   await expect(page.locator("#demo-result span")).toContainText("caption menu");
 });
 
-test("@claim:keyboard-shortcut applies the saved choice from the keyboard", async ({ page }) => {
-  await page.goto("/demo");
-  await page.locator("#demo-language-one").selectOption("fr");
-  await page.keyboard.press("Alt+Shift+C");
-  await expect(page.locator("#demo-result strong")).toHaveText("French captions are on");
-  await expect(page.locator("#sample-caption")).toHaveText("La marée tourne avant la pluie.");
-  await page.locator("#demo-language-one").selectOption("es");
-  await page.keyboard.press("Alt+Shift+C");
-  await expect(page.locator("#demo-result strong")).toHaveText("Spanish captions are on");
+test("@claim:keyboard-shortcut applies the saved choice through the installed extension command", async () => {
+  await withExtension(async (context) => {
+    const page = await context.newPage();
+    await page.goto("http://127.0.0.1:4173/extension-fixture.html");
+    await expect.poll(() => page.evaluate(() => Array.from(document.querySelector("video")?.textTracks ?? []).map((track) => track.mode))).toEqual(["disabled", "disabled"]);
+
+    const worker = context.serviceWorkers()[0]!;
+    const command = await worker.evaluate(async () => {
+      const extensionApi = globalThis as typeof globalThis & {
+        chrome: { commands: { getAll: () => Promise<Array<{ name: string; shortcut?: string }>> } };
+      };
+      return (await extensionApi.chrome.commands.getAll()).find(({ name }) => name === "apply-caption-choice");
+    });
+    expect(command?.shortcut).toBe("Ctrl+Shift+Y");
+    await worker.evaluate(async () => {
+      const extensionApi = globalThis as typeof globalThis & { chrome: { storage: { local: { set: (value: object) => Promise<void> } } } };
+      await extensionApi.chrome.storage.local.set({
+        "site:127.0.0.1": {
+          site: "127.0.0.1",
+          configured: true,
+          enabled: true,
+          defaultState: "on",
+          languages: ["es"],
+          updatedAt: Date.now()
+        }
+      });
+    });
+
+    await page.bringToFront();
+    await page.keyboard.press("Control+Shift+Y");
+    await expect.poll(() => page.evaluate(() => Array.from(document.querySelector("video")?.textTracks ?? []).map((track) => track.mode))).toEqual(["disabled", "showing"]);
+  });
 });
 
 test("@claim:choice-export exports saved choices as JSON", async () => {
@@ -161,7 +184,7 @@ test("@claim:choice-export exports saved choices as JSON", async () => {
   });
 });
 
-test("@claim:choice-import validates a backup, previews conflicts, and imports locally", async () => {
+test("@claim:choice-import rejects invalid files, recovers with a valid backup, previews conflicts, and imports locally", async () => {
   await withExtension(async (context, extensionId) => {
     const worker = context.serviceWorkers()[0]!;
     await worker.evaluate(async () => {
@@ -172,6 +195,28 @@ test("@claim:choice-import validates a backup, previews conflicts, and imports l
     });
     const options = await context.newPage();
     await options.goto(`chrome-extension://${extensionId}/options.html`);
+    const currentChoice = async () => worker.evaluate(async () => {
+      const extensionApi = globalThis as typeof globalThis & { chrome: { storage: { local: { get: (key: string) => Promise<unknown> } } } };
+      return extensionApi.chrome.storage.local.get("site:watch.example");
+    });
+    const assertRejected = async (name: string, contents: string, message: string) => {
+      await options.locator("#import-file").setInputFiles({ name, mimeType: "application/json", buffer: Buffer.from(contents) });
+      await expect(options.locator("#import-preview")).toContainText(message);
+      await expect(options.getByRole("button", { name: "Import choices" })).toBeDisabled();
+      await expect.poll(currentChoice).toMatchObject({ "site:watch.example": { defaultState: "on", languages: ["en"] } });
+    };
+
+    await assertRejected("broken.json", "{broken", "not a valid Caption Choice Memory backup");
+    await assertRejected("wrong-version.json", JSON.stringify({ version: 2, choices: [] }), "not a valid Caption Choice Memory backup");
+    const duplicate = {
+      version: 1,
+      choices: [
+        { site: "watch.example", configured: true, enabled: true, defaultState: "on", languages: ["en"], updatedAt: 2 },
+        { site: "watch.example", configured: true, enabled: true, defaultState: "off", languages: ["fr"], updatedAt: 3 }
+      ]
+    };
+    await assertRejected("duplicate-sites.json", JSON.stringify(duplicate), "same site more than once");
+
     const backup = { version: 1, choices: [{ site: "watch.example", configured: true, enabled: true, defaultState: "off", languages: ["fr"], updatedAt: 2 }] };
     await options.locator("#import-file").setInputFiles({ name: "choices.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(backup)) });
     await expect(options.locator("#import-preview")).toContainText("1 existing site will be replaced");

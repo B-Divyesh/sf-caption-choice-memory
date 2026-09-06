@@ -15,7 +15,7 @@ shortcuts as one word. No sentence exceeds 22 words or uses a banned word.
 | The extension remembers an ordered language list for each site. | 10 | `site-memory` |
 | Choose whether captions start on or off, then save up to four languages for each site. | 16 | `language-limit` |
 | Saved choices apply when a supported video appears. | 8 | `automatic-apply` |
-| Apply again with the button or shortcut. | 8 | `one-action`, `keyboard-shortcut` |
+| Apply again with the button or shortcut. | 8 | `one-action`, `keyboard-shortcut` (`Ctrl+Shift+Y`) |
 | It uses captions that the player makes available. | 9 | `native-caption-tracks`, `youtube-caption-controls` |
 | Caption choices stay in this browser. | 6 | `site-memory` |
 | Download the ZIP, unzip it, then choose Load unpacked in Chrome's extension settings. | 13 | Installation instruction |
