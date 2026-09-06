@@ -13,7 +13,7 @@
     "build": "npm run build:site",
     "preview": "vite preview --config vite.site.config.ts",
     "test": "npm run typecheck && npm run test:unit && npm run build && playwright test",
-    "test:browser:live": "PLAYWRIGHT_BASE_URL=https://caption-choice-memory.sociobot.in playwright test tests/e2e/quality.spec.ts tests/e2e/claims.spec.ts --grep-invert '@claim:(site-memory|private-requests)'",
+    "test:browser:live": "PLAYWRIGHT_BASE_URL=https://caption-choice-memory.sociobot.in playwright test tests/e2e/quality.spec.ts tests/e2e/claims.spec.ts --grep-invert '@claim:(site-memory|private-requests|keyboard-shortcut)'",
     "test:unit": "vitest run",
     "test:live": "node scripts/verify-live.mjs",
     "typecheck": "tsc --noEmit",
