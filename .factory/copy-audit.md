@@ -1,7 +1,7 @@
 # Landing page copy audit
 
-Audited 2026-08-28 after polish round 1. Counts treat hyphenated terms and
-shortcuts as one word. No sentence exceeds 22 words or uses a banned word.
+Audited 2026-09-06 after repair 3. Counts treat hyphenated terms and shortcuts
+as one word. No sentence exceeds 22 words or uses a banned word.
 
 ## Sentences
 
